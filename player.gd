@@ -14,6 +14,7 @@ extends CharacterBody2D
 
 var last_dir: String = "down"
 var is_acting: bool = false # Bloquea el movimiento mientras realiza una acción
+var menu_abierto: bool = false # Bloquea el movimiento cuando el inventario está visible
 
 # DATOS DEL TILESET
 const ID_TIERRA_SOURCE: int = 0  # ID de la fuente de la textura de tierra
@@ -37,12 +38,28 @@ const COORD_MADURO := Vector2i(4, 0)
 # 1 = Semilla, 2 = Brote mediano, 3 = Trigo maduro
 var plantas_estado: Dictionary = {}
 
-# INVENTARIO
+# INVENTARIO Y EQUIPAMIENTO
 var inventario_trigo: int = 0
+var semilla_equipada: String = "trigo"
+
+func _ready() -> void:
+	# Conectar automáticamente con la señal del HUD si existe
+	var hud_node = get_parent().get_node_or_null("HUD")
+	if hud_node and hud_node.has_signal("estado_inventario_cambiado"):
+		hud_node.estado_inventario_cambiado.connect(_on_estado_inventario_cambiado)
+
+func _on_estado_inventario_cambiado(abierto: bool) -> void:
+	menu_abierto = abierto
 
 func _physics_process(_delta: float) -> void:
-	if is_acting:
+	# Si está ejecutando animación de herramienta o con el inventario abierto, no se mueve
+	if is_acting or menu_abierto:
 		velocity = Vector2.ZERO
+		
+		# Solo reproducir "idle" si el menú está abierto y NO está usando una herramienta
+		if menu_abierto and not is_acting:
+			anim.play("idle_" + last_dir)
+			
 		move_and_slide()
 		return
 		
@@ -73,7 +90,7 @@ func _physics_process(_delta: float) -> void:
 
 # Detectar teclas de interacción
 func _unhandled_input(event: InputEvent) -> void:
-	if is_acting:
+	if is_acting or menu_abierto:
 		return
 		
 	if event.is_action_pressed("ui_accept"): # ESPACIO para arar
@@ -114,8 +131,6 @@ func arar_tierra() -> void:
 		return
 	
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
-	
-	# Selecciona una casilla al azar de la lista y la asigna directamente
 	var tile_elegido: Vector2i = VARIANTES_TIERRA.pick_random()
 	cultivo_layer.set_cell(tile_coord, ID_TIERRA_SOURCE, tile_elegido)
 
@@ -125,8 +140,6 @@ func plantar_semilla() -> void:
 		return
 		
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
-	
-	# Verifica si la casilla de la capa de cultivo NO está vacía (source_id != -1)
 	var source_id := cultivo_layer.get_cell_source_id(tile_coord)
 	
 	if source_id != -1:
@@ -164,15 +177,10 @@ func cosechar_planta() -> void:
 		
 	var tile_coord := obtener_coordenada_frente(plantas_layer)
 	
-	# Solo cosecha si hay una planta y está en Etapa 3 (Trigo Maduro)
 	if plantas_estado.has(tile_coord) and plantas_estado[tile_coord] == 3:
-		# 1. Limpiar el tile de la capa de plantas
 		plantas_layer.set_cell(tile_coord, -1, Vector2i(-1, -1))
-		
-		# 2. Borrar del diccionario
 		plantas_estado.erase(tile_coord)
 		
-		# 3. Instanciar el trigo flotante en la posición del tile
 		if trigo_item_scene:
 			var trigo_instancia := trigo_item_scene.instantiate() as Node2D
 			var pos_global := plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
