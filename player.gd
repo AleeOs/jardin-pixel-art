@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var cultivo_layer: TileMapLayer
 @export var plantas_layer: TileMapLayer
 
-# Escena de la espiga flotante de trigo que acabamos de crear
+# Escena de la espiga flotante de trigo
 @export var trigo_item_scene: PackedScene
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -16,8 +16,17 @@ var last_dir: String = "down"
 var is_acting: bool = false # Bloquea el movimiento mientras realiza una acción
 
 # DATOS DEL TILESET
-const ID_TIERRA: int = 0
-const COORD_TIERRA_ARADA := Vector2i(0, 0)
+const ID_TIERRA_SOURCE: int = 0  # ID de la fuente de la textura de tierra
+
+# Variantes aleatorias de casillas para arar
+const VARIANTES_TIERRA: Array[Vector2i] = [
+	Vector2i(0, 0),
+	Vector2i(1, 0),
+	Vector2i(2, 0),
+	Vector2i(0, 1),
+	Vector2i(1, 1),
+	Vector2i(2, 1)
+]
 
 const ID_PLANTAS: int = 1
 const COORD_SEMILLA := Vector2i(1, 0)
@@ -87,7 +96,7 @@ func iniciar_accion(prefix: String) -> void:
 func _on_animation_finished(_anim_name: String) -> void:
 	is_acting = false
 
-# Calcular la coordenada de la casilla frente al personaje recibiendo la capa correspondiente
+# Calcular la coordenada de la casilla frente al personaje
 func obtener_coordenada_frente(layer: TileMapLayer) -> Vector2i:
 	var target_vector := Vector2.ZERO
 	match last_dir:
@@ -105,7 +114,10 @@ func arar_tierra() -> void:
 		return
 	
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
-	cultivo_layer.set_cell(tile_coord, ID_TIERRA, COORD_TIERRA_ARADA)
+	
+	# Selecciona una casilla al azar de la lista y la asigna directamente
+	var tile_elegido: Vector2i = VARIANTES_TIERRA.pick_random()
+	cultivo_layer.set_cell(tile_coord, ID_TIERRA_SOURCE, tile_elegido)
 
 # Función ejecutada al presionar la tecla E
 func plantar_semilla() -> void:
@@ -114,10 +126,10 @@ func plantar_semilla() -> void:
 		
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
 	
+	# Verifica si la casilla de la capa de cultivo NO está vacía (source_id != -1)
 	var source_id := cultivo_layer.get_cell_source_id(tile_coord)
-	var atlas_coord := cultivo_layer.get_cell_atlas_coords(tile_coord)
 	
-	if source_id == ID_TIERRA and atlas_coord == COORD_TIERRA_ARADA:
+	if source_id != -1:
 		if not plantas_estado.has(tile_coord):
 			plantas_layer.set_cell(tile_coord, ID_PLANTAS, COORD_SEMILLA)
 			plantas_estado[tile_coord] = 1
