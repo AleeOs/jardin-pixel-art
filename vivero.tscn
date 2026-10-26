@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dr3dgc81xhjtg" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Wooden_House_Walls_Tilset.png" id="2_qnqlk"]
 [ext_resource type="PackedScene" uid="uid://n2rbjr7eyqss" path="res://player.tscn" id="3_h7lx2"]
 [ext_resource type="PackedScene" uid="uid://b4xes2osbi4ib" path="res://puerta_transicion.tscn" id="4_hjg5l"]
+[ext_resource type="AudioStream" uid="uid://cxlp4nyenop0k" path="res://Musica/Música Vivero Sell Plants.mp3" id="5_qnqlk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yyeis"]
 texture = ExtResource("1_y0rsq")
@@ -93,6 +94,10 @@ position = Vector2(144, 240)
 
 [node name="CollisionShape2D" parent="PuertaTransicion" index="1" unique_id=1103410134]
 position = Vector2(144, 239)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=476135651]
+stream = ExtResource("5_qnqlk")
+autoplay = true
 
 [editable path="Player"]
 [editable path="PuertaTransicion"]

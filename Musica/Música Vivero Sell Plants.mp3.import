@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cxlp4nyenop0k"
+path="res://.godot/imported/Música Vivero Sell Plants.mp3-570bbf60c2d988f8ccd2210cc05aec5e.mp3str"
+
+[deps]
+
+source_file="res://Musica/Música Vivero Sell Plants.mp3"
+dest_files=["res://.godot/imported/Música Vivero Sell Plants.mp3-570bbf60c2d988f8ccd2210cc05aec5e.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

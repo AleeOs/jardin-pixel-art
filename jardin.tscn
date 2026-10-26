@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dff613e156jb8" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic_Grass_Biom_things.png" id="8_k65ca"]
 [ext_resource type="PackedScene" uid="uid://b4xes2osbi4ib" path="res://puerta_transicion.tscn" id="9_k65ca"]
 [ext_resource type="Texture2D" uid="uid://yi1n50twwohb" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Paths.png" id="11_hbbqj"]
+[ext_resource type="AudioStream" uid="uid://cdvxnlpaoyxtk" path="res://Musica/Música Jardín Sell Plants.mp3" id="12_4awua"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fjkvr"]
 texture = ExtResource("1_mjthi")
@@ -493,7 +494,6 @@ limit_left = 240
 limit_right = 865
 
 [node name="HUD" parent="." unique_id=1091710389 instance=ExtResource("3_tkmnr")]
-visible = false
 
 [node name="HotbarContainer" parent="HUD/InventarioUI" parent_id_path=PackedInt32Array(1091710389, 1056030433) index="0" unique_id=138729171]
 offset_left = -359.0
@@ -550,6 +550,10 @@ tile_set = SubResource("TileSet_qbdty")
 [node name="PuertaTransicion" parent="." unique_id=247818762 instance=ExtResource("9_k65ca")]
 position = Vector2(696, 136)
 escena_destino = "uid://bf4sa3va57d16"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1137578774]
+stream = ExtResource("12_4awua")
+autoplay = true
 
 [editable path="Player"]
 [editable path="HUD"]
