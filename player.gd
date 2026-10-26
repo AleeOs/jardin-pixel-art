@@ -40,14 +40,21 @@ var plantas_estado: Dictionary = {}
 
 # INVENTARIO Y EQUIPAMIENTO
 var inventario_trigo: int = 0
-var semilla_equipada: String = "trigo"
+var semilla_equipada: String = "" # Ahora empieza sin nada en las manos
 
 func _ready() -> void:
-	# Conectar automáticamente con la señal del HUD si existe
 	var hud_node = get_parent().get_node_or_null("HUD")
-	if hud_node and hud_node.has_signal("estado_inventario_cambiado"):
-		hud_node.estado_inventario_cambiado.connect(_on_estado_inventario_cambiado)
+	if hud_node:
+		if hud_node.has_signal("estado_inventario_cambiado"):
+			hud_node.estado_inventario_cambiado.connect(_on_estado_inventario_cambiado)
+		# Conectar la nueva señal de equipamiento
+		if hud_node.has_signal("semilla_equipada"):
+			hud_node.semilla_equipada.connect(_on_semilla_equipada)
 
+# Esta función actualiza las manos del gato cuando haces clic en el HUD
+func _on_semilla_equipada(tipo: String) -> void:
+	semilla_equipada = tipo
+	
 func _on_estado_inventario_cambiado(abierto: bool) -> void:
 	menu_abierto = abierto
 
@@ -136,6 +143,9 @@ func arar_tierra() -> void:
 
 # Función ejecutada al presionar la tecla E
 func plantar_semilla() -> void:
+	if semilla_equipada == "":
+		return
+		
 	if not cultivo_layer or not plantas_layer:
 		return
 		
@@ -146,6 +156,11 @@ func plantar_semilla() -> void:
 		if not plantas_estado.has(tile_coord):
 			plantas_layer.set_cell(tile_coord, ID_PLANTAS, COORD_SEMILLA)
 			plantas_estado[tile_coord] = 1
+			
+			# NUEVO: Avisar al HUD que gastamos una semilla
+			var hud_node = get_parent().get_node_or_null("HUD")
+			if hud_node and hud_node.has_method("gastar_semilla"):
+				hud_node.gastar_semilla(semilla_equipada)
 
 # Función ejecutada por la Pista de Método de la animación de regar (R)
 func regar_tierra() -> void:

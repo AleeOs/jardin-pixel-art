@@ -436,10 +436,13 @@ offset_bottom = 17.0
 scale = Vector2(2.596, 2.733)
 
 [node name="BotonInventario" parent="HUD/InventarioUI" parent_id_path=PackedInt32Array(1091710389, 1056030433) index="1" unique_id=575442994]
-offset_left = -63.0
-offset_top = -2.0
-offset_right = 1.0
-offset_bottom = 30.0
+offset_left = -90.0
+offset_top = 3.0
+offset_right = -26.0
+offset_bottom = 35.0
+
+[node name="SlotPlantilla" parent="HUD/InventarioUI/VentanaInventario/GridSemillas" parent_id_path=PackedInt32Array(1091710389, 146415656) index="0" unique_id=679812784]
+visible = false
 
 [node name="Objetos" type="TileMapLayer" parent="." unique_id=1741461000]
 y_sort_enabled = true
