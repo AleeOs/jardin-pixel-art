@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://b4xes2osbi4ib"]
+
+[ext_resource type="Script" uid="uid://ck5n2feowxdpv" path="res://collision_shape_2d.gd" id="1_01qj7"]
+[ext_resource type="Script" uid="uid://dosncht7ni4j1" path="res://puerta_transicion.gd" id="1_3qdxb"]
+[ext_resource type="Texture2D" uid="uid://1tiu4kdkedws" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Doors.png" id="2_suei2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32rdk"]
+size = Vector2(15, 20)
+
+[sub_resource type="Animation" id="Animation_suei2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_rut27"]
+resource_name = "abrir"
+length = 0.93333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.49),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ltvxt"]
+_data = {
+&"RESET": SubResource("Animation_suei2"),
+&"abrir": SubResource("Animation_rut27")
+}
+
+[node name="PuertaTransicion" type="Area2D" unique_id=247818762]
+script = ExtResource("1_3qdxb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1451446860]
+texture = ExtResource("2_suei2")
+vframes = 4
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1103410134]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_32rdk")
+script = ExtResource("1_01qj7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2056583133]
+libraries/ = SubResource("AnimationLibrary_ltvxt")

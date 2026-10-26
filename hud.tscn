@@ -264,6 +264,25 @@ region = Rect2(10, 57, 28, 32)
 atlas = ExtResource("4_1xsix")
 region = Rect2(58, 57, 29, 30)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
+atlas = ExtResource("2_a2258")
+region = Rect2(275, 1, 10, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amv7k"]
+atlas = ExtResource("2_a2258")
+region = Rect2(291, 1, 10, 14)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1xsix"]
+load_path = "res://.godot/imported/Sprite sheet for Basic Pack.png-edbca92760330c87d6f468382e1f6520.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61f8s"]
+atlas = SubResource("CompressedTexture2D_1xsix")
+region = Rect2(274, 16, 11, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g10ll"]
+atlas = ExtResource("2_a2258")
+region = Rect2(291, 17, 10, 14)
+
 [node name="HUD" type="CanvasLayer" unique_id=1091710389]
 script = ExtResource("1_640wx")
 
@@ -496,7 +515,7 @@ region_rect = Rect2(201, 9, 30, 30)
 [node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla/MarcoUI" unique_id=913998957]
 texture = ExtResource("3_1xsix")
 region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+region_rect = Rect2(2, 2, 12, 13)
 
 [node name="CantidadText" type="Label" parent="InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla/MarcoUI" unique_id=1795885963]
 texture_filter = 1
@@ -507,3 +526,39 @@ offset_bottom = 16.414629
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
+
+[node name="BotonSiguiente" type="TextureButton" parent="InventarioUI/VentanaInventario" unique_id=358711671]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 195.0
+offset_top = 148.0
+offset_right = 235.0
+offset_bottom = 187.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_1vivr")
+texture_pressed = SubResource("AtlasTexture_amv7k")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BotonAnterior" type="TextureButton" parent="InventarioUI/VentanaInventario" unique_id=1015401947]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = 148.0
+offset_right = -199.0
+offset_bottom = 187.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_61f8s")
+texture_pressed = SubResource("AtlasTexture_g10ll")
+ignore_texture_size = true
+stretch_mode = 5
