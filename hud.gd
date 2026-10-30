@@ -12,6 +12,10 @@ signal semilla_equipada(tipo_semilla: String)
 @onready var boton_anterior: TextureButton = $InventarioUI/VentanaInventario/BotonAnterior
 @onready var boton_siguiente: TextureButton = $InventarioUI/VentanaInventario/BotonSiguiente
 
+# Guardarán las coordenadas exactas de la tierra y las plantas
+var tierra_guardada: Dictionary = {}
+var plantas_guardadas: Dictionary = {}
+
 var inventario_abierto: bool = false
 var hotbar_items: Array[String] = ["", "", "", "", ""]
 var slot_seleccionado: int = 0
@@ -33,7 +37,10 @@ var textura_plantas = preload("res://Sprout Lands - Sprites - Basic pack/Sprout 
 	"trigo": crear_icono(0, 0, 16, 16),          # Semilla (Coordenada 1 del tilemap)
 	"trigo_cosechado": crear_icono(80, 0, 16, 16) # Planta madura (Coordenada 4 del tilemap)
 }
-
+# Añade esto debajo de tus otros diccionarios en hud.gd
+@onready var texturas_exhibicion: Dictionary = {
+	"trigo_cosechado": crear_icono(64, 0, 16, 16) # La textura de la planta madura en la tierra
+}
 func crear_icono(x: int, y: int, ancho: int, alto: int) -> AtlasTexture:
 	var atlas = AtlasTexture.new()
 	atlas.atlas = textura_plantas

@@ -44,6 +44,9 @@ _data = {
 &"abrir": SubResource("Animation_rut27")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vivr"]
+size = Vector2(16, 14)
+
 [node name="PuertaTransicion" type="Area2D" unique_id=247818762]
 script = ExtResource("1_3qdxb")
 
@@ -59,3 +62,10 @@ script = ExtResource("1_01qj7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2056583133]
 libraries/ = SubResource("AnimationLibrary_ltvxt")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1171632935]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1179340821]
+shape = SubResource("RectangleShape2D_1vivr")
+
+[node name="PuntoSpawn" type="Marker2D" parent="." unique_id=1000074663]

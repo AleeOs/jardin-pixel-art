@@ -283,7 +283,7 @@ region = Rect2(274, 16, 11, 15)
 atlas = ExtResource("2_a2258")
 region = Rect2(291, 17, 10, 14)
 
-[node name="HUD" type="CanvasLayer" unique_id=1091710389]
+[node name="HUD" type="CanvasLayer" unique_id=1091710389 groups=["hud_global"]]
 script = ExtResource("1_640wx")
 
 [node name="InventarioUI" type="Control" parent="." unique_id=1056030433]
@@ -302,13 +302,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -963.0
-offset_top = -355.0
-offset_right = -306.0
-offset_bottom = -230.0
+offset_left = -328.5
+offset_top = -125.0
+offset_right = 328.5
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
+metadata/_edit_use_anchors_ = true
 
 [node name="Slot1" type="Control" parent="InventarioUI/HotbarContainer" unique_id=2060862364]
 custom_minimum_size = Vector2(125, 125)
@@ -321,11 +321,23 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot1/MarcoUI" unique_id=889565507]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot1/MarcoUI" unique_id=62706935]
 visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot1/MarcoUI" unique_id=1558933082]
 visible = false
@@ -349,11 +361,23 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=2102154452]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1076536316]
 visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1195121256]
 visible = false
@@ -377,11 +401,23 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=1847116167]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=552502433]
 visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=827323721]
 visible = false
@@ -405,11 +441,23 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=966008993]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=2142832831]
 visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=1537120587]
 visible = false
@@ -433,11 +481,23 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=1320358445]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=252036875]
 visible = false
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(81, 1, 14, 14)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=753819818]
 visible = false
@@ -512,10 +572,22 @@ texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="Sprite2D" parent="InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla/MarcoUI" unique_id=913998957]
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla/MarcoUI" unique_id=924732461]
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("3_1xsix")
-region_enabled = true
-region_rect = Rect2(2, 2, 12, 13)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CantidadText" type="Label" parent="InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla/MarcoUI" unique_id=1795885963]
 texture_filter = 1

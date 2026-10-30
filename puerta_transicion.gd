@@ -28,6 +28,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func iniciar_transicion() -> void:
 	viajando = true
+	$StaticBody2D/CollisionShape2D.set_deferred("disabled", true)
 	jugador_cerca.set_physics_process(false) 
 	
 	# 1. Abrimos la puerta y ESPERAMOS a que termine

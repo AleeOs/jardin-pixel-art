@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://wrlyrkx0sk1d"]
+
+[ext_resource type="Script" uid="uid://dg6grkvgfvjip" path="res://punto_exhibicion.gd" id="1_tfch1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i7gwf"]
+
+[node name="PuntoExhibicion" type="Area2D" unique_id=264183314]
+script = ExtResource("1_tfch1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1664875730]
+shape = SubResource("RectangleShape2D_i7gwf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1865167440]

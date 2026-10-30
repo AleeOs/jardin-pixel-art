@@ -36,20 +36,24 @@ const COORD_MADURO := Vector2i(4, 0)
 
 # Diccionario para controlar la etapa de cada planta
 # 1 = Semilla, 2 = Brote mediano, 3 = Trigo maduro
-var plantas_estado: Dictionary = {}
+
 
 # INVENTARIO Y EQUIPAMIENTO
 var inventario_trigo: int = 0
 var semilla_equipada: String = "" # Ahora empieza sin nada en las manos
 
 func _ready() -> void:
-	var hud_node = get_parent().get_node_or_null("HUD")
-	if hud_node:
-		if hud_node.has_signal("estado_inventario_cambiado"):
-			hud_node.estado_inventario_cambiado.connect(_on_estado_inventario_cambiado)
-		# Conectar la nueva señal de equipamiento
-		if hud_node.has_signal("semilla_equipada"):
-			hud_node.semilla_equipada.connect(_on_semilla_equipada)
+	# Nos conectamos directamente al Autoload global
+	if HudGlobal.has_signal("estado_inventario_cambiado"):
+		HudGlobal.estado_inventario_cambiado.connect(_on_estado_inventario_cambiado)
+		
+	if HudGlobal.has_signal("semilla_equipada"):
+		HudGlobal.semilla_equipada.connect(_on_semilla_equipada)
+		
+	# Forzamos a que el gato lea qué tiene en la mano al apenas arrancar
+	if HudGlobal.hotbar_items.size() > 0:
+		semilla_equipada = HudGlobal.hotbar_items[HudGlobal.slot_seleccionado]
+
 
 # Esta función actualiza las manos del gato cuando haces clic en el HUD
 func _on_semilla_equipada(tipo: String) -> void:
@@ -134,70 +138,59 @@ func obtener_coordenada_frente(layer: TileMapLayer) -> Vector2i:
 
 # Función ejecutada por la Pista de Método de la animación de arar (Espacio)
 func arar_tierra() -> void:
-	if not cultivo_layer:
-		return
-	
+	if not cultivo_layer: return
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
 	var tile_elegido: Vector2i = VARIANTES_TIERRA.pick_random()
 	cultivo_layer.set_cell(tile_coord, ID_TIERRA_SOURCE, tile_elegido)
-
+	
+	# NUEVO: Guardar en el cerebro global
+	HudGlobal.tierra_guardada[tile_coord] = tile_elegido
+	
 # Función ejecutada al presionar la tecla E
 func plantar_semilla() -> void:
-	if semilla_equipada == "":
-		return
-		
-	if not cultivo_layer or not plantas_layer:
+	if semilla_equipada == "" or not cultivo_layer or not plantas_layer: return
+	
+	# NUEVA VALIDACIÓN: Si el ítem no está en la lista de semillas, no hacemos nada
+	if not semilla_equipada in HudGlobal.lista_semillas:
 		return
 		
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
 	var source_id := cultivo_layer.get_cell_source_id(tile_coord)
 	
-	if source_id != -1:
-		if not plantas_estado.has(tile_coord):
-			plantas_layer.set_cell(tile_coord, ID_PLANTAS, COORD_SEMILLA)
-			plantas_estado[tile_coord] = 1
-			
-			# NUEVO: Avisar al HUD que gastamos una semilla
-			var hud_node = get_parent().get_node_or_null("HUD")
-			if hud_node and hud_node.has_method("gastar_semilla"):
-				hud_node.gastar_semilla(semilla_equipada)
+	if source_id != -1 and not HudGlobal.plantas_guardadas.has(tile_coord):
+		plantas_layer.set_cell(tile_coord, ID_PLANTAS, COORD_SEMILLA)
+		HudGlobal.plantas_guardadas[tile_coord] = 1 # 1 = Semilla
+		HudGlobal.gastar_semilla(semilla_equipada)
 
 # Función ejecutada por la Pista de Método de la animación de regar (R)
 func regar_tierra() -> void:
-	if not plantas_layer:
-		return
-		
+	if not plantas_layer: return
 	var tile_coord := obtener_coordenada_frente(plantas_layer)
 	
-	if plantas_estado.has(tile_coord):
-		var estado_actual: int = plantas_estado[tile_coord]
-		
+	if HudGlobal.plantas_guardadas.has(tile_coord):
+		var estado_actual: int = HudGlobal.plantas_guardadas[tile_coord]
 		if estado_actual == 1:
 			iniciar_timer_crecimiento(tile_coord, 5.0, 2, COORD_CRECIENDO)
 		elif estado_actual == 2:
 			iniciar_timer_crecimiento(tile_coord, 5.0, 3, COORD_MADURO)
-
+			
 func iniciar_timer_crecimiento(coord: Vector2i, tiempo: float, nuevo_estado: int, nueva_coord_atlas: Vector2i) -> void:
 	var timer := get_tree().create_timer(tiempo)
 	await timer.timeout
-	
-	if plantas_estado.has(coord):
+	if HudGlobal.plantas_guardadas.has(coord):
 		plantas_layer.set_cell(coord, ID_PLANTAS, nueva_coord_atlas)
-		plantas_estado[coord] = nuevo_estado
-
+		HudGlobal.plantas_guardadas[coord] = nuevo_estado
+		
 # Función ejecutada al presionar la tecla F
 func cosechar_planta() -> void:
-	if not plantas_layer:
-		return
-		
+	if not plantas_layer: return
 	var tile_coord := obtener_coordenada_frente(plantas_layer)
 	
-	if plantas_estado.has(tile_coord) and plantas_estado[tile_coord] == 3:
+	if HudGlobal.plantas_guardadas.has(tile_coord) and HudGlobal.plantas_guardadas[tile_coord] == 3:
 		plantas_layer.set_cell(tile_coord, -1, Vector2i(-1, -1))
-		plantas_estado.erase(tile_coord)
+		HudGlobal.plantas_guardadas.erase(tile_coord) # NUEVO: Borrar del global
 		
 		if trigo_item_scene:
 			var trigo_instancia := trigo_item_scene.instantiate() as Node2D
-			var pos_global := plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
-			trigo_instancia.global_position = pos_global
+			trigo_instancia.global_position = plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
 			get_parent().add_child(trigo_instancia)
