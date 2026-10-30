@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i7gwf"]
 
-[node name="PuntoExhibicion" type="Area2D" unique_id=264183314]
+[node name="PuntoExhibicion" type="StaticBody2D" unique_id=508704539 groups=["punto_exhibicion"]]
 script = ExtResource("1_tfch1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1664875730]

@@ -15,6 +15,7 @@ signal semilla_equipada(tipo_semilla: String)
 # Guardarán las coordenadas exactas de la tierra y las plantas
 var tierra_guardada: Dictionary = {}
 var plantas_guardadas: Dictionary = {}
+var exhibicion_guardada: Dictionary = {}
 
 var inventario_abierto: bool = false
 var hotbar_items: Array[String] = ["", "", "", "", ""]
@@ -23,7 +24,7 @@ var pagina_actual: int = 0
 
 var inventario_datos: Dictionary = {
 	"trigo": 5,
-	"trigo_cosechado": 0 
+	"trigo_cosechado": 5 
 }
 
 var lista_semillas: Array[String] = ["trigo"]

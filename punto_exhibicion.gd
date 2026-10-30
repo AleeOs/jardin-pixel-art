@@ -1,47 +1,52 @@
-extends Area2D
+extends StaticBody2D
 
 @onready var sprite_planta = $Sprite2D
+@onready var colision = $CollisionShape2D
 
-var jugador_cerca: Node2D = null
 var ocupado: bool = false
 var nombre_planta_exhibida: String = ""
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") or body.name == "Player":
-		jugador_cerca = body
-
-func _on_body_exited(body: Node2D) -> void:
-	if body == jugador_cerca:
-		jugador_cerca = null
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_P and jugador_cerca:
-			interactuar_exhibicion()
+	# REVISAR MEMORIA: Preguntamos si esta mesa específica (usando su nombre) tiene algo guardado
+	if HudGlobal.exhibicion_guardada.has(name) and HudGlobal.exhibicion_guardada[name] != "":
+		nombre_planta_exhibida = HudGlobal.exhibicion_guardada[name]
+		ocupado = true
+		sprite_planta.texture = HudGlobal.texturas_exhibicion[nombre_planta_exhibida]
+		colision.disabled = false # Volvemos a hacerla sólida
+	else:
+		colision.disabled = true 
 
 func interactuar_exhibicion() -> void:
 	var hud = HudGlobal 
 
 	if ocupado:
-		# QUITAR PLANTA
+		# QUITAR PLANTA Y DEVOLVERLA AL INVENTARIO
 		hud.agregar_cosecha(nombre_planta_exhibida)
+		
+		# Equipar automáticamente en el hotbar si la casilla actual está vacía
+		if hud.hotbar_items[hud.slot_seleccionado] == "":
+			hud.hotbar_items[hud.slot_seleccionado] = nombre_planta_exhibida
+			hud.dibujar_items_hotbar()
+			hud.semilla_equipada.emit(nombre_planta_exhibida)
+			
 		sprite_planta.texture = null
 		nombre_planta_exhibida = ""
 		ocupado = false
+		colision.disabled = true 
+		
+		# BORRAR DE LA MEMORIA GLOBAL
+		hud.exhibicion_guardada[name] = ""
 		
 	else:
 		# PONER PLANTA
 		var item_seleccionado = hud.hotbar_items[hud.slot_seleccionado]
 		
-		# Verifica que tengas una planta cosechada en la mano (no una semilla)
 		if item_seleccionado != "" and item_seleccionado in hud.lista_cosechas:
 			hud.gastar_semilla(item_seleccionado)
 			nombre_planta_exhibida = item_seleccionado
 			ocupado = true
+			sprite_planta.texture = hud.texturas_exhibicion[item_seleccionado]
+			colision.disabled = false 
 			
-			# Reutiliza tu brillante sistema de texturas
-			sprite_planta.texture = hud.iconos_items[item_seleccionado]
+			# GUARDAR EN LA MEMORIA GLOBAL (usando el nombre de este nodo)
+			hud.exhibicion_guardada[name] = item_seleccionado

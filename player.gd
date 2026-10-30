@@ -112,6 +112,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		iniciar_accion("water_")
 	elif event.is_action_pressed("cosechar"): # F para cosechar
 		cosechar_planta()
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_P:
+		intentar_exhibir()
 
 func iniciar_accion(prefix: String) -> void:
 	is_acting = true
@@ -194,3 +196,20 @@ func cosechar_planta() -> void:
 			var trigo_instancia := trigo_item_scene.instantiate() as Node2D
 			trigo_instancia.global_position = plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
 			get_parent().add_child(trigo_instancia)
+func intentar_exhibir() -> void:
+	var target_vector := Vector2.ZERO
+	match last_dir:
+		"down": target_vector = Vector2.DOWN
+		"up": target_vector = Vector2.UP
+		"left": target_vector = Vector2.LEFT
+		"right": target_vector = Vector2.RIGHT
+		
+	# Calculamos el pixel exacto que está un pasito frente al gato
+	var target_pos := global_position + (target_vector * 16.0)
+	
+	# Buscamos en el grupo si hay un punto de exhibición cerca de esa posición
+	var puntos = get_tree().get_nodes_in_group("punto_exhibicion")
+	for punto in puntos:
+		if punto.global_position.distance_to(target_pos) < 12.0:
+			punto.interactuar_exhibicion()
+			return
