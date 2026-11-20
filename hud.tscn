@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://d3w7glpxy6nr4" path="res://hud.gd" id="1_640wx"]
 [ext_resource type="Texture2D" uid="uid://cwtnx0quiss2n" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png" id="2_a2258"]
 [ext_resource type="Texture2D" uid="uid://cku2r2cjdcfvb" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic Plants.png" id="3_1xsix"]
-[ext_resource type="Texture2D" uid="uid://3rr631kswf4i" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/buttons/Square Buttons 26x26.png" id="4_1xsix"]
 [ext_resource type="Texture2D" uid="uid://rxtu1c4pqqsi" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Setting menu.png" id="5_1xsix"]
 [ext_resource type="FontFile" uid="uid://dmyjfqdkkt15m" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="6_rftc2"]
 
@@ -257,12 +256,20 @@ cache/0/25/0/glyphs/57/uv_rect = Rect2(49, 1, 14, 22)
 cache/0/25/0/glyphs/57/texture_idx = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rftc2"]
-atlas = ExtResource("4_1xsix")
+atlas = ExtResource("2_a2258")
 region = Rect2(10, 57, 28, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gpiub"]
-atlas = ExtResource("4_1xsix")
-region = Rect2(58, 57, 29, 30)
+atlas = ExtResource("2_a2258")
+region = Rect2(58, 58, 28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2258"]
+atlas = ExtResource("2_a2258")
+region = Rect2(772, 98, 25, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xsix"]
+atlas = ExtResource("2_a2258")
+region = Rect2(804, 100, 25, 25)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
 atlas = ExtResource("2_a2258")
@@ -525,6 +532,21 @@ focus_mode = 0
 texture_normal = SubResource("AtlasTexture_rftc2")
 texture_pressed = SubResource("AtlasTexture_gpiub")
 
+[node name="BotonTienda" type="TextureButton" parent="InventarioUI" unique_id=1466843022]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -93.0
+offset_top = 99.000015
+offset_right = -67.666626
+offset_bottom = 127.000015
+grow_horizontal = 0
+scale = Vector2(3, 3)
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_a2258")
+texture_pressed = SubResource("AtlasTexture_1xsix")
+
 [node name="VentanaInventario" type="NinePatchRect" parent="InventarioUI" unique_id=2014782995]
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
@@ -634,3 +656,87 @@ texture_normal = SubResource("AtlasTexture_61f8s")
 texture_pressed = SubResource("AtlasTexture_g10ll")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="VentanaTienda" type="NinePatchRect" parent="InventarioUI" unique_id=736447620]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_1xsix")
+region_rect = Rect2(139, 12, 107, 123)
+
+[node name="Label" type="Label" parent="InventarioUI/VentanaTienda" unique_id=1424366217]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -44.0
+offset_top = 13.0
+offset_right = 45.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+text = "TIENDA DE SEMILLAS"
+
+[node name="GridTienda" type="GridContainer" parent="InventarioUI/VentanaTienda" unique_id=464004113]
+layout_mode = 1
+offset_right = 125.0
+offset_bottom = 125.0
+theme_override_constants/h_separation = 28
+columns = 4
+
+[node name="SlotPlantilla" type="Control" parent="InventarioUI/VentanaTienda/GridTienda" unique_id=2113301292]
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+
+[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/VentanaTienda/GridTienda/SlotPlantilla" unique_id=27252848]
+position = Vector2(67, 76)
+scale = Vector2(2.8, 2.7333333)
+texture = SubResource("AtlasTexture_qwt81")
+region_enabled = true
+region_rect = Rect2(201, 9, 30, 30)
+
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/VentanaTienda/GridTienda/SlotPlantilla/MarcoUI" unique_id=404276843]
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_1xsix")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CantidadText" type="Label" parent="InventarioUI/VentanaTienda/GridTienda/SlotPlantilla/MarcoUI" unique_id=1122245722]
+texture_filter = 1
+offset_left = 15.714294
+offset_top = -6.585371
+offset_right = 43.714294
+offset_bottom = 16.414629
+theme_override_fonts/font = SubResource("FontFile_amv7k")
+theme_override_font_sizes/font_size = 16
+text = "x0"
+
+[node name="LabelMonedas" type="Label" parent="InventarioUI" unique_id=1823554175]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 27.0
+offset_right = 163.0
+offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("6_rftc2")
+text = "Eco-Monedas: 100"

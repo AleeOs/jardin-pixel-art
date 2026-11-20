@@ -2,6 +2,7 @@ extends CanvasLayer
 
 signal estado_inventario_cambiado(abierto: bool)
 signal semilla_equipada(tipo_semilla: String)
+signal monedas_cambiadas(nueva_cantidad: int)
 
 @onready var hotbar_container = $InventarioUI/HotbarContainer
 @onready var ventana_inventario: Control = $InventarioUI/VentanaInventario
@@ -11,6 +12,16 @@ signal semilla_equipada(tipo_semilla: String)
 
 @onready var boton_anterior: TextureButton = $InventarioUI/VentanaInventario/BotonAnterior
 @onready var boton_siguiente: TextureButton = $InventarioUI/VentanaInventario/BotonSiguiente
+
+# --- NODOS DE ECONOMÍA Y TIENDA ---
+@onready var label_monedas: Label = $InventarioUI/LabelMonedas
+@onready var boton_tienda: TextureButton = $InventarioUI/BotonTienda
+@onready var ventana_tienda: Control = $InventarioUI/VentanaTienda
+@onready var grid_tienda: GridContainer = $InventarioUI/VentanaTienda/GridTienda
+@onready var slot_tienda_plantilla: Control = $InventarioUI/VentanaTienda/GridTienda/SlotPlantilla
+
+var eco_monedas: int = 100
+var tienda_abierta: bool = false
 
 # Guardarán las coordenadas exactas de la tierra y las plantas
 var tierra_guardada: Dictionary = {}
@@ -40,23 +51,25 @@ const CATALOGO_PLANTAS: Dictionary = {
 		"cosecha": "trigo_cosechado",
 		"tiempo": 5.0,
 		"source_id": 1,
-		"etapas": { 1: Vector2i(1, 0), 2: Vector2i(2, 0), 3: Vector2i(4, 0) }
+		"etapas": { 1: Vector2i(1, 0), 2: Vector2i(2, 0), 3: Vector2i(4, 0) },
+		"precio_compra": 10,
+		"precio_venta": 25
 	},
 	"remolacha": {
 		"cosecha": "remolacha_cosechada",
 		"tiempo": 7.0,
 		"source_id": 1,
-		"etapas": { 1: Vector2i(1, 1), 2: Vector2i(2, 1), 3: Vector2i(4, 1) }
+		"etapas": { 1: Vector2i(1, 1), 2: Vector2i(2, 1), 3: Vector2i(4, 1) },
+		"precio_compra": 20,
+		"precio_venta": 50
 	},
 	"arbol": {
 		"cosecha": "arbol_cosechado",
 		"tiempo": 10.0,
 		"source_id": 2,
-		"etapas": {
-			1: Vector2i(5, 1), # Fase 1: Brote
-			2: Vector2i(0, 0), # Fase 2: Árbol delgado (1x2)
-			3: Vector2i(1, 0)  # Fase 3: Árbol grande (2x2)
-		}
+		"etapas": { 1: Vector2i(5, 1), 2: Vector2i(0, 0), 3: Vector2i(1, 0) },
+		"precio_compra": 40,
+		"precio_venta": 110
 	}
 }
 
@@ -92,6 +105,15 @@ func _ready() -> void:
 		
 	if boton_inventario:
 		boton_inventario.pressed.connect(toggle_inventario)
+	if boton_tienda:
+		boton_tienda.pressed.connect(toggle_tienda)
+	if ventana_tienda:
+		ventana_tienda.visible = false
+	if slot_tienda_plantilla:
+		slot_tienda_plantilla.visible = false
+		
+	actualizar_ui_monedas()
+	generar_slots_tienda()
 		
 	if boton_anterior:
 		boton_anterior.pressed.connect(_on_pagina_anterior)
@@ -113,14 +135,41 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_I:
 			toggle_inventario()
-		elif event.keycode >= KEY_1 and event.keycode <= KEY_5:
+		elif event.keycode == KEY_T:
+			toggle_tienda()
+		elif event.keycode == KEY_ESCAPE and (inventario_abierto or tienda_abierta):
+			cerrar_menus()
+		elif event.keycode >= KEY_1 and event.keycode <= KEY_5 and not tienda_abierta:
 			seleccionar_slot_hotbar(event.keycode - KEY_1)
 
 func toggle_inventario() -> void:
 	inventario_abierto = !inventario_abierto
+	if inventario_abierto and tienda_abierta:
+		tienda_abierta = false
+		if ventana_tienda: ventana_tienda.visible = false
+		
 	if ventana_inventario:
 		ventana_inventario.visible = inventario_abierto
-	estado_inventario_cambiado.emit(inventario_abierto)
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta)
+
+func toggle_tienda() -> void:
+	tienda_abierta = !tienda_abierta
+	if tienda_abierta and inventario_abierto:
+		inventario_abierto = false
+		if ventana_inventario: ventana_inventario.visible = false
+		
+	if ventana_tienda:
+		ventana_tienda.visible = tienda_abierta
+	if tienda_abierta:
+		generar_slots_tienda()
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta)
+
+func cerrar_menus() -> void:
+	inventario_abierto = false
+	tienda_abierta = false
+	if ventana_inventario: ventana_inventario.visible = false
+	if ventana_tienda: ventana_tienda.visible = false
+	estado_inventario_cambiado.emit(false)
 
 func _on_pagina_anterior() -> void:
 	if pagina_actual > 0:
@@ -230,3 +279,55 @@ func gastar_semilla(tipo: String) -> void:
 		
 		if inventario_datos[tipo] <= 0:
 			semilla_equipada.emit("")
+
+# --- SISTEMA DE ECO-MONEDAS Y TIENDA ---
+func actualizar_ui_monedas() -> void:
+	if label_monedas:
+		label_monedas.text = "Eco-Monedas: " + str(eco_monedas)
+
+func agregar_monedas(cantidad: int) -> void:
+	eco_monedas += cantidad
+	actualizar_ui_monedas()
+	monedas_cambiadas.emit(eco_monedas)
+
+func gastar_monedas(cantidad: int) -> bool:
+	if eco_monedas >= cantidad:
+		eco_monedas -= cantidad
+		actualizar_ui_monedas()
+		monedas_cambiadas.emit(eco_monedas)
+		return true
+	return false
+
+func generar_slots_tienda() -> void:
+	if not grid_tienda or not slot_tienda_plantilla: return
+	for hijo in grid_tienda.get_children():
+		if hijo != slot_tienda_plantilla:
+			hijo.queue_free()
+			
+	for tipo_semilla in lista_semillas:
+		var precio: int = CATALOGO_PLANTAS[tipo_semilla]["precio_compra"]
+		
+		var nuevo_slot = slot_tienda_plantilla.duplicate()
+		nuevo_slot.visible = true
+		grid_tienda.add_child(nuevo_slot)
+		
+		var icono_slot = nuevo_slot.find_child("IconoTrigo*", true, false)
+		if icono_slot and iconos_items.has(tipo_semilla):
+			icono_slot.texture = iconos_items[tipo_semilla]
+			
+		var texto_precio = nuevo_slot.find_child("CantidadTex*", true, false)
+		if texto_precio:
+			texto_precio.text = "$" + str(precio)
+			texto_precio.modulate = Color(1, 1, 1) if eco_monedas >= precio else Color(1, 0.4, 0.4)
+			
+		nuevo_slot.gui_input.connect(_on_item_tienda_clicado.bind(tipo_semilla))
+
+func _on_item_tienda_clicado(event: InputEvent, tipo_semilla: String) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		comprar_semilla(tipo_semilla)
+
+func comprar_semilla(tipo_semilla: String) -> void:
+	var precio: int = CATALOGO_PLANTAS[tipo_semilla]["precio_compra"]
+	if gastar_monedas(precio):
+		agregar_cosecha(tipo_semilla)
+		generar_slots_tienda()
