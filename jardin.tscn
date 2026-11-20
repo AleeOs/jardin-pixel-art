@@ -371,16 +371,36 @@ texture = ExtResource("4_fjkvr")
 texture = ExtResource("5_8lx7y")
 0:0/0 = 0
 1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, 3)
+1:0/0/y_sort_origin = -8
 2:0/0 = 0
+2:0/0/y_sort_origin = -8
 3:0/0 = 0
 4:0/0 = 0
+4:0/0/y_sort_origin = -8
 5:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
+1:1/0/texture_origin = Vector2i(0, 5)
+1:1/0/y_sort_origin = -8
 2:1/0 = 0
+2:1/0/y_sort_origin = -8
 3:1/0 = 0
 4:1/0 = 0
+4:1/0/y_sort_origin = -8
 5:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fgf3q"]
+texture = ExtResource("5_gpir0")
+1:0/size_in_atlas = Vector2i(2, 2)
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, 8)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+0:0/size_in_atlas = Vector2i(1, 2)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 8)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -3.4173155, 8, -3.5971737, 8, 3.956892, -8, 4.136751)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hbbqj"]
 texture = ExtResource("8_k65ca")
@@ -431,12 +451,14 @@ texture = ExtResource("8_k65ca")
 8:4/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_v5gy4"]
+physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "TierraArada 0"
 terrain_set_0/terrain_0/color = Color(0.61306924, 0.27233005, 1.92523e-07, 1)
 sources/0 = SubResource("TileSetAtlasSource_tkmnr")
 sources/1 = SubResource("TileSetAtlasSource_xp051")
 sources/3 = SubResource("TileSetAtlasSource_hbbqj")
+sources/2 = SubResource("TileSetAtlasSource_fgf3q")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbpfs"]
 texture = ExtResource("6_32rdk")

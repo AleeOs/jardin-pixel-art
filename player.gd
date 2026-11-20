@@ -148,54 +148,67 @@ func arar_tierra() -> void:
 	# NUEVO: Guardar en el cerebro global
 	HudGlobal.tierra_guardada[tile_coord] = tile_elegido
 	
-# Función ejecutada al presionar la tecla E
 func plantar_semilla() -> void:
 	if semilla_equipada == "" or not cultivo_layer or not plantas_layer: return
-	
-	# NUEVA VALIDACIÓN: Si el ítem no está en la lista de semillas, no hacemos nada
-	if not semilla_equipada in HudGlobal.lista_semillas:
-		return
+	if not HudGlobal.CATALOGO_PLANTAS.has(semilla_equipada): return
 		
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
 	var source_id := cultivo_layer.get_cell_source_id(tile_coord)
 	
 	if source_id != -1 and not HudGlobal.plantas_guardadas.has(tile_coord):
-		plantas_layer.set_cell(tile_coord, ID_PLANTAS, COORD_SEMILLA)
-		HudGlobal.plantas_guardadas[tile_coord] = 1 # 1 = Semilla
+		var info: Dictionary = HudGlobal.CATALOGO_PLANTAS[semilla_equipada]
+		plantas_layer.set_cell(tile_coord, info["source_id"], info["etapas"][1])
+		
+		HudGlobal.plantas_guardadas[tile_coord] = {
+			"tipo": semilla_equipada,
+			"estado": 1
+		}
 		HudGlobal.gastar_semilla(semilla_equipada)
 
-# Función ejecutada por la Pista de Método de la animación de regar (R)
 func regar_tierra() -> void:
 	if not plantas_layer: return
 	var tile_coord := obtener_coordenada_frente(plantas_layer)
 	
 	if HudGlobal.plantas_guardadas.has(tile_coord):
-		var estado_actual: int = HudGlobal.plantas_guardadas[tile_coord]
+		var datos: Dictionary = HudGlobal.plantas_guardadas[tile_coord]
+		var estado_actual: int = datos["estado"]
+		var info: Dictionary = HudGlobal.CATALOGO_PLANTAS[datos["tipo"]]
+		
 		if estado_actual == 1:
-			iniciar_timer_crecimiento(tile_coord, 5.0, 2, COORD_CRECIENDO)
+			iniciar_timer_crecimiento(tile_coord, info["tiempo"], 2, info["source_id"], info["etapas"][2])
 		elif estado_actual == 2:
-			iniciar_timer_crecimiento(tile_coord, 5.0, 3, COORD_MADURO)
-			
-func iniciar_timer_crecimiento(coord: Vector2i, tiempo: float, nuevo_estado: int, nueva_coord_atlas: Vector2i) -> void:
+			iniciar_timer_crecimiento(tile_coord, info["tiempo"], 3, info["source_id"], info["etapas"][3])
+
+func iniciar_timer_crecimiento(coord: Vector2i, tiempo: float, nuevo_estado: int, src_id: int, nueva_coord_atlas: Vector2i) -> void:
 	var timer := get_tree().create_timer(tiempo)
 	await timer.timeout
-	if HudGlobal.plantas_guardadas.has(coord):
-		plantas_layer.set_cell(coord, ID_PLANTAS, nueva_coord_atlas)
-		HudGlobal.plantas_guardadas[coord] = nuevo_estado
-		
-# Función ejecutada al presionar la tecla F
+	if is_instance_valid(plantas_layer) and HudGlobal.plantas_guardadas.has(coord):
+		plantas_layer.set_cell(coord, src_id, nueva_coord_atlas)
+		HudGlobal.plantas_guardadas[coord]["estado"] = nuevo_estado
+
 func cosechar_planta() -> void:
 	if not plantas_layer: return
 	var tile_coord := obtener_coordenada_frente(plantas_layer)
 	
-	if HudGlobal.plantas_guardadas.has(tile_coord) and HudGlobal.plantas_guardadas[tile_coord] == 3:
-		plantas_layer.set_cell(tile_coord, -1, Vector2i(-1, -1))
-		HudGlobal.plantas_guardadas.erase(tile_coord) # NUEVO: Borrar del global
+	if HudGlobal.plantas_guardadas.has(tile_coord) and HudGlobal.plantas_guardadas[tile_coord]["estado"] == 3:
+		var tipo_semilla: String = HudGlobal.plantas_guardadas[tile_coord]["tipo"]
+		var info: Dictionary = HudGlobal.CATALOGO_PLANTAS[tipo_semilla]
 		
+		# 1. Borrar planta
+		plantas_layer.set_cell(tile_coord, -1, Vector2i(-1, -1))
+		HudGlobal.plantas_guardadas.erase(tile_coord)
+		
+		# 2. Volver la tierra arada a pasto
+		cultivo_layer.set_cell(tile_coord, -1, Vector2i(-1, -1))
+		HudGlobal.tierra_guardada.erase(tile_coord)
+		
+		# 3. Soltar el ítem correspondiente
 		if trigo_item_scene:
-			var trigo_instancia := trigo_item_scene.instantiate() as Node2D
-			trigo_instancia.global_position = plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
-			get_parent().add_child(trigo_instancia)
+			var item_instancia := trigo_item_scene.instantiate() as Node2D
+			item_instancia.tipo_cosecha = info["cosecha"]
+			item_instancia.global_position = plantas_layer.to_global(plantas_layer.map_to_local(tile_coord))
+			get_parent().add_child(item_instancia)
+				
 func intentar_exhibir() -> void:
 	var target_vector := Vector2.ZERO
 	match last_dir:

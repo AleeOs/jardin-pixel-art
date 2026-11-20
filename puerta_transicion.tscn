@@ -4,8 +4,7 @@
 [ext_resource type="Script" uid="uid://dosncht7ni4j1" path="res://puerta_transicion.gd" id="1_3qdxb"]
 [ext_resource type="Texture2D" uid="uid://1tiu4kdkedws" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Doors.png" id="2_suei2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_32rdk"]
-size = Vector2(15, 20)
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_1xsix"]
 
 [sub_resource type="Animation" id="Animation_suei2"]
 length = 0.001
@@ -56,8 +55,8 @@ vframes = 4
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1103410134]
-position = Vector2(0, 16)
-shape = SubResource("RectangleShape2D_32rdk")
+position = Vector2(0, 7)
+shape = SubResource("SegmentShape2D_1xsix")
 script = ExtResource("1_01qj7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2056583133]

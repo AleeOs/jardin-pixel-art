@@ -266,7 +266,7 @@ escena_destino = "uid://shr0bu7uhpa2"
 direccion_movimiento = Vector2(0, 40)
 
 [node name="CollisionShape2D" parent="PuertaTransicion" index="1" unique_id=1103410134]
-position = Vector2(0, 0)
+position = Vector2(0, -16)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=476135651]
 stream = ExtResource("5_qnqlk")

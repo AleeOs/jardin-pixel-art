@@ -23,28 +23,65 @@ var slot_seleccionado: int = 0
 var pagina_actual: int = 0 
 
 var inventario_datos: Dictionary = {
-	"trigo": 5,
-	"trigo_cosechado": 5 
+	"trigo": 10,
+	"trigo_cosechado": 5,
+	"remolacha": 5,
+	"remolacha_cosechada": 2,
+	"arbol": 3,
+	"arbol_cosechado": 1
 }
 
-var lista_semillas: Array[String] = ["trigo"]
-var lista_cosechas: Array[String] = ["trigo_cosechado"]
+var lista_semillas: Array[String] = ["trigo", "remolacha", "arbol"]
+var lista_cosechas: Array[String] = ["trigo_cosechado", "remolacha_cosechada", "arbol_cosechado"]
 
-# --- NUEVA BASE DE DATOS VISUAL ---
+# --- CATÁLOGO MAESTRO DE CULTIVOS ---
+const CATALOGO_PLANTAS: Dictionary = {
+	"trigo": {
+		"cosecha": "trigo_cosechado",
+		"tiempo": 5.0,
+		"source_id": 1,
+		"etapas": { 1: Vector2i(1, 0), 2: Vector2i(2, 0), 3: Vector2i(4, 0) }
+	},
+	"remolacha": {
+		"cosecha": "remolacha_cosechada",
+		"tiempo": 7.0,
+		"source_id": 1,
+		"etapas": { 1: Vector2i(1, 1), 2: Vector2i(2, 1), 3: Vector2i(4, 1) }
+	},
+	"arbol": {
+		"cosecha": "arbol_cosechado",
+		"tiempo": 10.0,
+		"source_id": 2,
+		"etapas": {
+			1: Vector2i(5, 1), # Fase 1: Brote
+			2: Vector2i(0, 0), # Fase 2: Árbol delgado (1x2)
+			3: Vector2i(1, 0)  # Fase 3: Árbol grande (2x2)
+		}
+	}
+}
+
+# --- BASE DE DATOS VISUAL ---
 var textura_plantas = preload("res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic Plants.png")
+var textura_naturaleza = preload("res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic Grass Biom things 1.png")
 
-# Recortamos los íconos creando un AtlasTexture por código (x, y, ancho, alto)
 @onready var iconos_items: Dictionary = {
-	"trigo": crear_icono(0, 0, 16, 16),          # Semilla (Coordenada 1 del tilemap)
-	"trigo_cosechado": crear_icono(80, 0, 16, 16) # Planta madura (Coordenada 4 del tilemap)
+	"trigo": crear_icono(textura_plantas, 0, 0, 16, 16),
+	"trigo_cosechado": crear_icono(textura_plantas, 80, 0, 16, 16),
+	"remolacha": crear_icono(textura_plantas, 0, 16, 16, 16),
+	"remolacha_cosechada": crear_icono(textura_plantas, 80, 16, 16, 16),
+	"arbol": crear_icono(textura_naturaleza, 80, 16, 16, 16),       # Paquete: Brote (5, 1)
+	"arbol_cosechado": crear_icono(textura_naturaleza, 0, 0, 16, 32) # Drop e Inventario: Árbol delgado (0, 0)
 }
-# Añade esto debajo de tus otros diccionarios en hud.gd
+
 @onready var texturas_exhibicion: Dictionary = {
-	"trigo_cosechado": crear_icono(64, 0, 16, 16) # La textura de la planta madura en la tierra
+	"trigo_cosechado": crear_icono(textura_plantas, 64, 0, 16, 16),
+	"remolacha_cosechada": crear_icono(textura_plantas, 64, 16, 16, 16),
+	"arbol_cosechado": crear_icono(textura_naturaleza, 16, 0, 32, 32) # Exhibición: Árbol grande (1, 0)
 }
-func crear_icono(x: int, y: int, ancho: int, alto: int) -> AtlasTexture:
+
+func crear_icono(textura_base: Texture2D, x: int, y: int, ancho: int, alto: int) -> AtlasTexture:
 	var atlas = AtlasTexture.new()
-	atlas.atlas = textura_plantas
+	atlas.atlas = textura_base
 	atlas.region = Rect2(x, y, ancho, alto)
 	return atlas
 # ----------------------------------
