@@ -290,6 +290,25 @@ region = Rect2(274, 16, 11, 15)
 atlas = ExtResource("2_a2258")
 region = Rect2(291, 17, 10, 14)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a2258"]
+load_path = "res://.godot/imported/Setting menu.png-0e5cce5f5e0a84d728ac84588faeba5c.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vrlf"]
+atlas = ExtResource("2_a2258")
+region = Rect2(836, 66, 25, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5gy4"]
+atlas = ExtResource("2_a2258")
+region = Rect2(868, 69, 24, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2pp6"]
+atlas = ExtResource("2_a2258")
+region = Rect2(835, 99, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7cuq"]
+atlas = ExtResource("2_a2258")
+region = Rect2(867, 100, 25, 25)
+
 [node name="HUD" type="CanvasLayer" unique_id=1091710389 groups=["hud_global"]]
 script = ExtResource("1_640wx")
 
@@ -548,6 +567,7 @@ texture_normal = SubResource("AtlasTexture_a2258")
 texture_pressed = SubResource("AtlasTexture_1xsix")
 
 [node name="VentanaInventario" type="NinePatchRect" parent="InventarioUI" unique_id=2014782995]
+visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -658,6 +678,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="VentanaTienda" type="NinePatchRect" parent="InventarioUI" unique_id=736447620]
+visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -731,6 +752,92 @@ offset_bottom = 16.414629
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
+
+[node name="VentanaDialogoNPC" type="NinePatchRect" parent="InventarioUI" unique_id=1676181860]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -294.0
+offset_top = -79.0
+offset_right = 300.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CompressedTexture2D_a2258")
+region_rect = Rect2(135, 10, 115, 127)
+
+[node name="TextoDialogo" type="Label" parent="InventarioUI/VentanaDialogoNPC" unique_id=1308929611]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -193.0
+offset_top = 67.0
+offset_right = 193.0
+offset_bottom = 158.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BotonAceptar" type="TextureButton" parent="InventarioUI/VentanaDialogoNPC" unique_id=350518557]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 41.0
+offset_top = -72.0
+offset_right = 91.0
+offset_bottom = -20.0
+grow_vertical = 0
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_v5gy4")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="LabelAceptar" type="Label" parent="InventarioUI/VentanaDialogoNPC/BotonAceptar" unique_id=494943829]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 19.0
+offset_right = 116.0
+offset_bottom = 42.0
+theme_override_fonts/font = ExtResource("6_rftc2")
+text = "Aceptar"
+
+[node name="BotonRechazar" type="TextureButton" parent="InventarioUI/VentanaDialogoNPC" unique_id=1807303273]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -67.0
+offset_right = -42.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = SubResource("AtlasTexture_d2pp6")
+texture_pressed = SubResource("AtlasTexture_u7cuq")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="LabelRechazar" type="Label" parent="InventarioUI/VentanaDialogoNPC/BotonRechazar" unique_id=867616492]
+layout_mode = 0
+offset_left = -74.0
+offset_top = 18.0
+offset_right = -3.0
+offset_bottom = 41.0
+theme_override_fonts/font = ExtResource("6_rftc2")
+text = "Rechazar"
 
 [node name="LabelMonedas" type="Label" parent="InventarioUI" unique_id=1823554175]
 layout_mode = 0

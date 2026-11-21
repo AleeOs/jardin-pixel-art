@@ -20,6 +20,17 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var grid_tienda: GridContainer = $InventarioUI/VentanaTienda/GridTienda
 @onready var slot_tienda_plantilla: Control = $InventarioUI/VentanaTienda/GridTienda/SlotPlantilla
 
+# --- DIALOGO NPC Y PEDIDOS ---
+@onready var ventana_dialogo_npc: Control = $InventarioUI/VentanaDialogoNPC
+@onready var texto_dialogo_npc: Label = $InventarioUI/VentanaDialogoNPC/TextoDialogo
+@onready var boton_aceptar_npc: BaseButton = $InventarioUI/VentanaDialogoNPC/BotonAceptar
+@onready var boton_rechazar_npc: BaseButton = $InventarioUI/VentanaDialogoNPC/BotonRechazar
+
+var pedidos_activos: Array[Dictionary] = []
+var dialogo_npc_abierto: bool = false
+var _callback_aceptar_actual: Callable
+var _callback_rechazar_actual: Callable
+
 var eco_monedas: int = 100
 var tienda_abierta: bool = false
 
@@ -130,6 +141,15 @@ func _ready() -> void:
 	seleccionar_slot_hotbar(0)
 	generar_slots_inventario()
 	dibujar_items_hotbar()
+	
+	if ventana_dialogo_npc:
+		ventana_dialogo_npc.visible = false
+	if boton_aceptar_npc:
+		boton_aceptar_npc.pressed.connect(_on_dialogo_aceptar)
+	if boton_rechazar_npc:
+		boton_rechazar_npc.pressed.connect(_on_dialogo_rechazar)
+
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -141,6 +161,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			cerrar_menus()
 		elif event.keycode >= KEY_1 and event.keycode <= KEY_5 and not tienda_abierta:
 			seleccionar_slot_hotbar(event.keycode - KEY_1)
+		elif event.keycode == KEY_F11:
+			if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			else:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func toggle_inventario() -> void:
 	inventario_abierto = !inventario_abierto
@@ -331,3 +356,30 @@ func comprar_semilla(tipo_semilla: String) -> void:
 	if gastar_monedas(precio):
 		agregar_cosecha(tipo_semilla)
 		generar_slots_tienda()
+
+# --- CONTROL DE DIÁLOGO CON CLIENTES NPC ---
+func mostrar_dialogo_npc(mensaje: String, on_aceptar: Callable, on_rechazar: Callable) -> void:
+	if not ventana_dialogo_npc: return
+	cerrar_menus()
+	dialogo_npc_abierto = true
+	_callback_aceptar_actual = on_aceptar
+	_callback_rechazar_actual = on_rechazar
+	texto_dialogo_npc.text = mensaje
+	ventana_dialogo_npc.visible = true
+	estado_inventario_cambiado.emit(true)
+
+func cerrar_dialogo_npc() -> void:
+	dialogo_npc_abierto = false
+	if ventana_dialogo_npc:
+		ventana_dialogo_npc.visible = false
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta)
+
+func _on_dialogo_aceptar() -> void:
+	cerrar_dialogo_npc()
+	if _callback_aceptar_actual.is_valid():
+		_callback_aceptar_actual.call()
+
+func _on_dialogo_rechazar() -> void:
+	cerrar_dialogo_npc()
+	if _callback_rechazar_actual.is_valid():
+		_callback_rechazar_actual.call()

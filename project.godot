@@ -22,7 +22,8 @@ HudGlobal="*uid://r2wl8op6vjpm"
 
 [display]
 
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [input]
 

@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://b4xes2osbi4ib" path="res://puerta_transicion.tscn" id="4_hjg5l"]
 [ext_resource type="Texture2D" uid="uid://yi1n50twwohb" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Paths.png" id="5_h7lx2"]
 [ext_resource type="AudioStream" uid="uid://cxlp4nyenop0k" path="res://Musica/Música Vivero Sell Plants.mp3" id="5_qnqlk"]
-[ext_resource type="Texture2D" uid="uid://1tiu4kdkedws" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Doors.png" id="6_h7lx2"]
 [ext_resource type="Texture2D" uid="uid://bf5jy43ayja1u" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Tilled Dirt.png" id="7_p6ayt"]
 [ext_resource type="Texture2D" uid="uid://cc7noqk4cusr2" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Tilesets/Grass.png" id="8_p6ayt"]
-[ext_resource type="PackedScene" uid="uid://vepfsh7ba64l" path="res://npc_cliente.tscn" id="8_yyeis"]
 [ext_resource type="PackedScene" uid="uid://wrlyrkx0sk1d" path="res://punto_exhibicion.tscn" id="11_l7vtq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t1wcd"]
@@ -232,16 +230,6 @@ texture = ExtResource("2_qnqlk")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_yyeis")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v3e5l"]
-texture = ExtResource("6_h7lx2")
-0:0/0 = 0
-0:1/0 = 0
-0:2/0 = 0
-0:3/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_v5gy4"]
-sources/0 = SubResource("TileSetAtlasSource_v3e5l")
-
 [node name="Vivero" type="Node2D" unique_id=1796017101]
 y_sort_enabled = true
 script = ExtResource("1_t1wcd")
@@ -252,7 +240,7 @@ tile_set = SubResource("TileSet_3qdxb")
 
 [node name="Player" parent="." unique_id=1390090094 instance=ExtResource("3_h7lx2")]
 y_sort_enabled = true
-position = Vector2(581, 518)
+position = Vector2(750, 415)
 
 [node name="Camera2D" parent="Player" index="2" unique_id=144989242]
 limit_left = 252
@@ -268,6 +256,16 @@ direccion_movimiento = Vector2(0, 40)
 [node name="CollisionShape2D" parent="PuertaTransicion" index="1" unique_id=1103410134]
 position = Vector2(0, -16)
 
+[node name="PuertaNPCs" parent="." unique_id=1806236003 instance=ExtResource("4_hjg5l")]
+y_sort_enabled = true
+position = Vector2(808, 360)
+escena_destino = "uid://shr0bu7uhpa2"
+direccion_movimiento = Vector2(0, 40)
+es_puerta_npc = true
+
+[node name="CollisionShape2D" parent="PuertaNPCs" index="1" unique_id=1103410134]
+position = Vector2(0, -16)
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=476135651]
 stream = ExtResource("5_qnqlk")
 autoplay = true
@@ -281,13 +279,6 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAoAB4AAAAAAAAAAAApAB4AAAADAAIAAAAqAB4AAAABAAAAAAArAB4AAAADAAIAAAAtAB4AAAADAAIAAAAuAB4AAAABAAAAAAAvAB4AAAADAAIAAAAoAB8AAAAAAAEAAAAwAB4AAAACAAAAAAAwAB8AAAACAAEAAAAsAB4AAAABAAAAAAAoACAAAAAAAAIAAAAwACAAAAACAAIAAAA=")
 tile_set = SubResource("TileSet_8vrlf")
 
-[node name="PuertaNPCs" type="TileMapLayer" parent="." unique_id=1064291049]
-tile_map_data = PackedByteArray("AAAyABYAAAAAAAEAAAA=")
-tile_set = SubResource("TileSet_v5gy4")
-
-[node name="NpcCliente" parent="." unique_id=731304077 instance=ExtResource("8_yyeis")]
-position = Vector2(666, 408)
-
 [node name="PuntoExhibicion" parent="." unique_id=264183314 instance=ExtResource("11_l7vtq")]
 position = Vector2(295, 505)
 
@@ -300,5 +291,39 @@ position = Vector2(360, 504)
 [node name="PuntoExhibicion4" parent="." unique_id=87350779 instance=ExtResource("11_l7vtq")]
 position = Vector2(392, 505)
 
+[node name="PuntosRutaNPC" type="Node2D" parent="." unique_id=1690506359]
+
+[node name="PuntoEntrada" type="Marker2D" parent="PuntosRutaNPC" unique_id=1516809094]
+position = Vector2(808, 368)
+
+[node name="PuntosExhibicion" type="Node2D" parent="PuntosRutaNPC" unique_id=1007703851]
+
+[node name="PuntoEx1" type="Marker2D" parent="PuntosRutaNPC/PuntosExhibicion" unique_id=768567182]
+position = Vector2(392, 523)
+
+[node name="PuntoEx2" type="Marker2D" parent="PuntosRutaNPC/PuntosExhibicion" unique_id=1143218497]
+position = Vector2(360, 523)
+
+[node name="PuntoEx3" type="Marker2D" parent="PuntosRutaNPC/PuntosExhibicion" unique_id=589260568]
+position = Vector2(327, 523)
+
+[node name="PuntoEx4" type="Marker2D" parent="PuntosRutaNPC/PuntosExhibicion" unique_id=681791493]
+position = Vector2(295, 523)
+
+[node name="PuntosMostrador" type="Node2D" parent="PuntosRutaNPC" unique_id=1941112761]
+
+[node name="PuntoMostrador1" type="Marker2D" parent="PuntosRutaNPC/PuntosMostrador" unique_id=1436161016]
+position = Vector2(664, 469)
+
+[node name="PuntoMostrador2" type="Marker2D" parent="PuntosRutaNPC/PuntosMostrador" unique_id=100578787]
+position = Vector2(696, 469)
+
+[node name="PuntoMostrador3" type="Marker2D" parent="PuntosRutaNPC/PuntosMostrador" unique_id=1680300204]
+position = Vector2(728, 469)
+
+[node name="PuntoMostrador4" type="Marker2D" parent="PuntosRutaNPC/PuntosMostrador" unique_id=1365820778]
+position = Vector2(760, 470)
+
 [editable path="Player"]
 [editable path="PuertaTransicion"]
+[editable path="PuertaNPCs"]

@@ -44,3 +44,11 @@ func interactuar_exhibicion() -> void:
 			aplicar_visual_exhibicion(item_seleccionado)
 			colision.disabled = false 
 			hud.exhibicion_guardada[name] = item_seleccionado
+
+func vaciar_por_venta() -> void:
+	sprite_planta.texture = null
+	sprite_planta.offset.y = 0.0
+	nombre_planta_exhibida = ""
+	ocupado = false
+	colision.disabled = true
+	HudGlobal.exhibicion_guardada[name] = ""
