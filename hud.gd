@@ -26,6 +26,19 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var boton_aceptar_npc: BaseButton = $InventarioUI/VentanaDialogoNPC/BotonAceptar
 @onready var boton_rechazar_npc: BaseButton = $InventarioUI/VentanaDialogoNPC/BotonRechazar
 
+# --- PANEL DE PEDIDOS ACTIVOS ---
+@onready var boton_pedidos: BaseButton = $InventarioUI/BotonPedidos
+@onready var ventana_pedidos: Control = $InventarioUI/VentanaPedidos
+@onready var lista_pedidos: VBoxContainer = $InventarioUI/VentanaPedidos/ListaPedidos
+@onready var fila_pedido_plantilla: Control = $InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla
+
+var pedidos_abierto: bool = false
+
+const NOMBRES_COSECHAS: Dictionary = {
+	"trigo_cosechado": "Trigo",
+	"remolacha_cosechada": "Remolacha",
+	"arbol_cosechado": "Árbol"
+}
 var pedidos_activos: Array[Dictionary] = []
 var dialogo_npc_abierto: bool = false
 var _callback_aceptar_actual: Callable
@@ -148,6 +161,13 @@ func _ready() -> void:
 		boton_aceptar_npc.pressed.connect(_on_dialogo_aceptar)
 	if boton_rechazar_npc:
 		boton_rechazar_npc.pressed.connect(_on_dialogo_rechazar)
+	
+	if ventana_pedidos:
+		ventana_pedidos.visible = false
+	if fila_pedido_plantilla:
+		fila_pedido_plantilla.visible = false
+	if boton_pedidos:
+		boton_pedidos.pressed.connect(toggle_pedidos)
 
 
 
@@ -166,34 +186,54 @@ func _unhandled_input(event: InputEvent) -> void:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			else:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			
+		elif event.keycode == KEY_J:
+			toggle_pedidos()
+		elif event.keycode == KEY_ESCAPE and (inventario_abierto or tienda_abierta or pedidos_abierto):
+			cerrar_menus()	
 
 func toggle_inventario() -> void:
 	inventario_abierto = !inventario_abierto
-	if inventario_abierto and tienda_abierta:
+	if inventario_abierto:
 		tienda_abierta = false
+		pedidos_abierto = false
 		if ventana_tienda: ventana_tienda.visible = false
-		
+		if ventana_pedidos: ventana_pedidos.visible = false
 	if ventana_inventario:
 		ventana_inventario.visible = inventario_abierto
-	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta)
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta or pedidos_abierto)
 
 func toggle_tienda() -> void:
 	tienda_abierta = !tienda_abierta
-	if tienda_abierta and inventario_abierto:
+	if tienda_abierta:
 		inventario_abierto = false
+		pedidos_abierto = false
 		if ventana_inventario: ventana_inventario.visible = false
-		
+		if ventana_pedidos: ventana_pedidos.visible = false
+		generar_slots_tienda()
 	if ventana_tienda:
 		ventana_tienda.visible = tienda_abierta
-	if tienda_abierta:
-		generar_slots_tienda()
-	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta)
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta or pedidos_abierto)
+
+func toggle_pedidos() -> void:
+	pedidos_abierto = !pedidos_abierto
+	if pedidos_abierto:
+		inventario_abierto = false
+		tienda_abierta = false
+		if ventana_inventario: ventana_inventario.visible = false
+		if ventana_tienda: ventana_tienda.visible = false
+		generar_lista_pedidos()
+	if ventana_pedidos:
+		ventana_pedidos.visible = pedidos_abierto
+	estado_inventario_cambiado.emit(inventario_abierto or tienda_abierta or pedidos_abierto)
 
 func cerrar_menus() -> void:
 	inventario_abierto = false
 	tienda_abierta = false
+	pedidos_abierto = false
 	if ventana_inventario: ventana_inventario.visible = false
 	if ventana_tienda: ventana_tienda.visible = false
+	if ventana_pedidos: ventana_pedidos.visible = false
 	estado_inventario_cambiado.emit(false)
 
 func _on_pagina_anterior() -> void:
@@ -383,3 +423,70 @@ func _on_dialogo_rechazar() -> void:
 	cerrar_dialogo_npc()
 	if _callback_rechazar_actual.is_valid():
 		_callback_rechazar_actual.call()
+
+# --- GESTIÓN DE PEDIDOS ACTIVOS ---
+func generar_lista_pedidos() -> void:
+	if not lista_pedidos or not fila_pedido_plantilla: return
+	
+	for hijo in lista_pedidos.get_children():
+		if hijo != fila_pedido_plantilla:
+			hijo.queue_free()
+			
+	if pedidos_activos.is_empty():
+		var fila_vacia := fila_pedido_plantilla.duplicate()
+		fila_vacia.visible = true
+		lista_pedidos.add_child(fila_vacia)
+		var icono_vacio := fila_vacia.get_node_or_null("IconoCultivo") as TextureRect
+		var texto_vacio := fila_vacia.get_node_or_null("TextoPedido") as Label
+		var boton_vacio := fila_vacia.get_node_or_null("BotonEntregar") as BaseButton
+		if icono_vacio: icono_vacio.visible = false
+		if boton_vacio: boton_vacio.visible = false
+		if texto_vacio: texto_vacio.text = "No tienes encargos activos."
+		return
+
+	for i in range(pedidos_activos.size()):
+		var pedido: Dictionary = pedidos_activos[i]
+		var item: String = str(pedido["item"])
+		var cantidad_req: int = int(pedido["cantidad"])
+		var recompensa: int = int(pedido["recompensa"])
+		var en_mochila: int = int(inventario_datos.get(item, 0))
+		
+		var nueva_fila := fila_pedido_plantilla.duplicate()
+		nueva_fila.visible = true
+		lista_pedidos.add_child(nueva_fila)
+		
+		var icono := nueva_fila.get_node_or_null("IconoCultivo") as TextureRect
+		if icono and iconos_items.has(item):
+			icono.texture = iconos_items[item]
+			
+		var texto := nueva_fila.get_node_or_null("TextoPedido") as Label
+		if texto:
+			var nombre_bonito: String = NOMBRES_COSECHAS.get(item, item)
+			texto.text = "%s (%d/%d)  +$%d" % [nombre_bonito, en_mochila, cantidad_req, recompensa]
+			
+		var boton := nueva_fila.get_node_or_null("BotonEntregar") as BaseButton
+		if boton:
+			var puede_entregar: bool = en_mochila >= cantidad_req
+			boton.disabled = not puede_entregar
+			boton.modulate = Color(1, 1, 1) if puede_entregar else Color(0.6, 0.6, 0.6, 0.7)
+			boton.pressed.connect(entregar_pedido.bind(i))
+
+func entregar_pedido(index: int) -> void:
+	if index < 0 or index >= pedidos_activos.size(): return
+	
+	var pedido: Dictionary = pedidos_activos[index]
+	var item: String = str(pedido["item"])
+	var cantidad_req: int = int(pedido["cantidad"])
+	var recompensa: int = int(pedido["recompensa"])
+	
+	if int(inventario_datos.get(item, 0)) >= cantidad_req:
+		inventario_datos[item] -= cantidad_req
+		agregar_monedas(recompensa)
+		pedidos_activos.remove_at(index)
+		
+		generar_slots_inventario()
+		dibujar_items_hotbar()
+		generar_lista_pedidos()
+
+func esta_juego_pausado() -> bool:
+	return dialogo_npc_abierto or inventario_abierto or tienda_abierta or pedidos_abierto

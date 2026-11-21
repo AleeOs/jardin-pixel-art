@@ -271,6 +271,14 @@ region = Rect2(772, 98, 25, 27)
 atlas = ExtResource("2_a2258")
 region = Rect2(804, 100, 25, 25)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fv7p"]
+atlas = ExtResource("2_a2258")
+region = Rect2(708, 130, 25, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4u2vk"]
+atlas = ExtResource("2_a2258")
+region = Rect2(740, 133, 24, 24)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
 atlas = ExtResource("2_a2258")
 region = Rect2(275, 1, 10, 14)
@@ -289,6 +297,14 @@ region = Rect2(274, 16, 11, 15)
 [sub_resource type="AtlasTexture" id="AtlasTexture_g10ll"]
 atlas = ExtResource("2_a2258")
 region = Rect2(291, 17, 10, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbdty"]
+atlas = ExtResource("2_a2258")
+region = Rect2(833, 66, 30, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auskg"]
+atlas = ExtResource("2_a2258")
+region = Rect2(866, 68, 27, 27)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a2258"]
 load_path = "res://.godot/imported/Setting menu.png-0e5cce5f5e0a84d728ac84588faeba5c.ctex"
@@ -566,6 +582,21 @@ focus_mode = 0
 texture_normal = SubResource("AtlasTexture_a2258")
 texture_pressed = SubResource("AtlasTexture_1xsix")
 
+[node name="BotonPedidos" type="TextureButton" parent="InventarioUI" unique_id=463747488]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -93.0
+offset_top = 184.0
+offset_right = -67.666626
+offset_bottom = 212.0
+grow_horizontal = 0
+scale = Vector2(3, 3)
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_1fv7p")
+texture_pressed = SubResource("AtlasTexture_4u2vk")
+
 [node name="VentanaInventario" type="NinePatchRect" parent="InventarioUI" unique_id=2014782995]
 visible = false
 custom_minimum_size = Vector2(500, 400)
@@ -753,7 +784,66 @@ theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
 
+[node name="VentanaPedidos" type="NinePatchRect" parent="InventarioUI" unique_id=6267670]
+visible = false
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_1xsix")
+region_rect = Rect2(139, 12, 107, 123)
+
+[node name="Label" type="Label" parent="InventarioUI/VentanaPedidos" unique_id=810050816]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -44.0
+offset_top = 13.0
+offset_right = 45.0
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+text = "PEDIDOS ACTIVOS"
+
+[node name="ListaPedidos" type="VBoxContainer" parent="InventarioUI/VentanaPedidos" unique_id=1672478581]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 38.0
+offset_right = 294.0
+offset_bottom = 148.0
+
+[node name="FilaPedidoPlantilla" type="HBoxContainer" parent="InventarioUI/VentanaPedidos/ListaPedidos" unique_id=1027126034]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IconoCultivo" type="TextureRect" parent="InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla" unique_id=1042227975]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+expand_mode = 1
+
+[node name="TextoPedido" type="Label" parent="InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla" unique_id=118295993]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("6_rftc2")
+
+[node name="BotonEntregar" type="TextureButton" parent="InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla" unique_id=1842502021]
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_qbdty")
+texture_pressed = SubResource("AtlasTexture_auskg")
+
 [node name="VentanaDialogoNPC" type="NinePatchRect" parent="InventarioUI" unique_id=1676181860]
+visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 8

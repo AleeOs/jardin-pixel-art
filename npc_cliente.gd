@@ -73,7 +73,7 @@ func iniciar_entrada() -> void:
 	estado_actual = Estado.YENDO_EXHIBICION
 
 func _physics_process(_delta: float) -> void:
-	if HudGlobal.dialogo_npc_abierto or HudGlobal.inventario_abierto or HudGlobal.tienda_abierta:
+	if HudGlobal.esta_juego_pausado():
 		velocity = Vector2.ZERO
 		anim.play("idle_" + ultima_dir)
 		return

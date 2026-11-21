@@ -104,6 +104,12 @@ func iniciar_generador_clientes() -> void:
 	add_child(timer)
 
 func intentar_spawnear_cliente() -> void:
+	if HudGlobal.esta_juego_pausado():
+		return
+	if puerta_npcs and puerta_npcs.npcs_usando_puerta > 0:
+		return
+	if clientes_en_tienda >= MAX_CLIENTES or not ruta_npcs or not puerta_npcs:
+		return
 	if clientes_en_tienda >= MAX_CLIENTES or not ruta_npcs or not puerta_npcs:
 		return
 		
