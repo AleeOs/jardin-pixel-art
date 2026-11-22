@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://bkdu5nkhv4cup"]
+
+[ext_resource type="Script" uid="uid://cslrbx6aism6p" path="res://panel_slots.gd" id="1_6va6g"]
+[ext_resource type="Texture2D" uid="uid://rxtu1c4pqqsi" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Setting menu.png" id="1_wxw84"]
+[ext_resource type="FontFile" uid="uid://dmyjfqdkkt15m" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="2_6va6g"]
+[ext_resource type="Texture2D" uid="uid://cwtnx0quiss2n" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png" id="3_m8xaq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
+atlas = ExtResource("1_wxw84")
+region = Rect2(135, 7, 114, 131)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vrlf"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(162, 176, 92, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auskg"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(258, 178, 92, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbdty"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(162, 177, 92, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2pp6"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(258, 179, 92, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7cuq"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(161, 176, 94, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5tgd"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(258, 179, 92, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sxyj"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(242, 81, 12, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5u3a"]
+atlas = ExtResource("3_m8xaq")
+region = Rect2(258, 83, 12, 12)
+
+[node name="PanelSlots" type="Control" unique_id=245364903]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6va6g")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2014395792]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.54901963)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=128486529]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.75
+offset_top = -117.0
+offset_right = 109.75
+offset_bottom = 117.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_1vivr")
+
+[node name="LabelTitulo" type="Label" parent="TextureRect" unique_id=1699105549]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.999998
+offset_right = 113.0
+offset_bottom = 40.0
+grow_horizontal = 2
+scale = Vector2(0.74677545, 0.7485172)
+theme_override_fonts/font = ExtResource("2_6va6g")
+text = "SELECCIONAR RANURA"
+horizontal_alignment = 1
+
+[node name="ContenedorSlots" type="VBoxContainer" parent="TextureRect" unique_id=1427970026]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -43.0
+offset_right = 174.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Slot1" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1488298835]
+custom_minimum_size = Vector2(220, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_auskg")
+ignore_texture_size = true
+
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=483279670]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Slot2" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1533989384]
+custom_minimum_size = Vector2(220, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+texture_normal = SubResource("AtlasTexture_qbdty")
+texture_pressed = SubResource("AtlasTexture_d2pp6")
+ignore_texture_size = true
+
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot2" unique_id=1228381477]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Slot3" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=2098934343]
+custom_minimum_size = Vector2(220, 32)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_u7cuq")
+texture_pressed = SubResource("AtlasTexture_o5tgd")
+ignore_texture_size = true
+
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot3" unique_id=752652445]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BotonCerrar" type="TextureButton" parent="TextureRect" unique_id=381969385]
+layout_mode = 0
+offset_left = 184.75002
+offset_top = 17.0
+offset_right = 196.75002
+offset_bottom = 31.0
+scale = Vector2(1.5080323, 1.3345325)
+texture_normal = SubResource("AtlasTexture_0sxyj")
+texture_pressed = SubResource("AtlasTexture_s5u3a")

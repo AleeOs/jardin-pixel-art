@@ -14,12 +14,12 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var boton_siguiente: TextureButton = $InventarioUI/VentanaInventario/BotonSiguiente
 
 # --- NODOS DE ECONOMÍA Y TIENDA ---
-@onready var label_monedas: Label = $InventarioUI/LabelMonedas
+@onready var label_monedas: Label = $InventarioUI.find_child("LabelMonedas", true, false)
+@onready var boton_pausa: BaseButton = $InventarioUI.find_child("BotonPausa", true, false)
 @onready var boton_tienda: TextureButton = $InventarioUI/BotonTienda
 @onready var ventana_tienda: Control = $InventarioUI/VentanaTienda
 @onready var grid_tienda: GridContainer = $InventarioUI/VentanaTienda/GridTienda
 @onready var slot_tienda_plantilla: Control = $InventarioUI/VentanaTienda/GridTienda/SlotPlantilla
-
 # --- DIALOGO NPC Y PEDIDOS ---
 @onready var ventana_dialogo_npc: Control = $InventarioUI/VentanaDialogoNPC
 @onready var texto_dialogo_npc: Label = $InventarioUI/VentanaDialogoNPC/TextoDialogo
@@ -33,6 +33,13 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var fila_pedido_plantilla: Control = $InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla
 
 var pedidos_abierto: bool = false
+var pausa_abierta: bool = false
+signal pausa_cambiada(abierta: bool)
+signal antes_de_guardar
+
+const MAX_SLOTS: int = 3
+const RUTA_CONFIG_SLOTS: String = "user://ultimo_slot.json"
+var slot_activo: int = 0
 
 const NOMBRES_COSECHAS: Dictionary = {
 	"trigo_cosechado": "Trigo",
@@ -168,17 +175,27 @@ func _ready() -> void:
 		fila_pedido_plantilla.visible = false
 	if boton_pedidos:
 		boton_pedidos.pressed.connect(toggle_pedidos)
-
+	if boton_pausa:
+		boton_pausa.pressed.connect(toggle_pausa)
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_I:
+		if event.keycode == KEY_ESCAPE:
+			if dialogo_npc_abierto:
+				return
+			elif inventario_abierto or tienda_abierta or pedidos_abierto:
+				cerrar_menus()
+			else:
+				toggle_pausa()
+		elif pausa_abierta:
+			return
+		elif event.keycode == KEY_I:
 			toggle_inventario()
 		elif event.keycode == KEY_T:
 			toggle_tienda()
-		elif event.keycode == KEY_ESCAPE and (inventario_abierto or tienda_abierta):
-			cerrar_menus()
+		elif event.keycode == KEY_J:
+			toggle_pedidos()
 		elif event.keycode >= KEY_1 and event.keycode <= KEY_5 and not tienda_abierta:
 			seleccionar_slot_hotbar(event.keycode - KEY_1)
 		elif event.keycode == KEY_F11:
@@ -186,11 +203,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			else:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-			
-		elif event.keycode == KEY_J:
-			toggle_pedidos()
-		elif event.keycode == KEY_ESCAPE and (inventario_abierto or tienda_abierta or pedidos_abierto):
-			cerrar_menus()	
 
 func toggle_inventario() -> void:
 	inventario_abierto = !inventario_abierto
@@ -348,8 +360,8 @@ func gastar_semilla(tipo: String) -> void:
 # --- SISTEMA DE ECO-MONEDAS Y TIENDA ---
 func actualizar_ui_monedas() -> void:
 	if label_monedas:
-		label_monedas.text = "Eco-Monedas: " + str(eco_monedas)
-
+		label_monedas.text = str(eco_monedas)
+		
 func agregar_monedas(cantidad: int) -> void:
 	eco_monedas += cantidad
 	actualizar_ui_monedas()
@@ -488,5 +500,213 @@ func entregar_pedido(index: int) -> void:
 		dibujar_items_hotbar()
 		generar_lista_pedidos()
 
+func toggle_pausa() -> void:
+	pausa_abierta = !pausa_abierta
+	if pausa_abierta:
+		cerrar_menus()
+	pausa_cambiada.emit(pausa_abierta)
+	estado_inventario_cambiado.emit(esta_juego_pausado())
+
 func esta_juego_pausado() -> bool:
-	return dialogo_npc_abierto or inventario_abierto or tienda_abierta or pedidos_abierto
+	return dialogo_npc_abierto or inventario_abierto or tienda_abierta or pedidos_abierto or pausa_abierta
+
+# --- MOTOR DE PERSISTENCIA JSON (3 SLOTS) ---
+func reiniciar_estado_partida() -> void:
+	slot_activo = 0
+	eco_monedas = 100
+	tierra_guardada.clear()
+	plantas_guardadas.clear()
+	exhibicion_guardada.clear()
+	pedidos_activos.clear()
+	hotbar_items = ["", "", "", "", ""]
+	slot_seleccionado = 0
+	pagina_actual = 0
+	inventario_datos = {
+		"trigo": 10,
+		"trigo_cosechado": 5,
+		"remolacha": 5,
+		"remolacha_cosechada": 2,
+		"arbol": 3,
+		"arbol_cosechado": 1
+	}
+	actualizar_ui_monedas()
+	generar_slots_inventario()
+	dibujar_items_hotbar()
+
+func guardar_en_slot(num_slot: int) -> bool:
+	if num_slot < 1 or num_slot > MAX_SLOTS:
+		return false
+		
+	# Solicita a la escena actual (ej. Jardín) que vuelque sus datos antes de escribir
+	antes_de_guardar.emit()
+	slot_activo = num_slot
+	
+	var escena_actual_ruta: String = "res://jardin.tscn"
+	if get_tree().current_scene and get_tree().current_scene.scene_file_path != "":
+		escena_actual_ruta = get_tree().current_scene.scene_file_path
+		
+	var datos_partida: Dictionary = {
+		"fecha": Time.get_datetime_string_from_system(false, true),
+		"escena": escena_actual_ruta,
+		"eco_monedas": eco_monedas,
+		"inventario_datos": inventario_datos.duplicate(true),
+		"hotbar_items": hotbar_items.duplicate(),
+		"slot_seleccionado": slot_seleccionado,
+		"pedidos_activos": pedidos_activos.duplicate(true),
+		"exhibicion_guardada": exhibicion_guardada.duplicate(true),
+		"tierra_guardada": _serializar_dict_vec2i(tierra_guardada),
+		"plantas_guardadas": _serializar_dict_vec2i(plantas_guardadas)
+	}
+	
+	var archivo := FileAccess.open(_obtener_ruta_slot(num_slot), FileAccess.WRITE)
+	if archivo == null:
+		return false
+		
+	archivo.store_string(JSON.stringify(datos_partida, "\t"))
+	archivo.close()
+	_guardar_ultimo_slot(num_slot)
+	return true
+
+func cargar_desde_slot(num_slot: int) -> bool:
+	var ruta: String = _obtener_ruta_slot(num_slot)
+	if not FileAccess.file_exists(ruta):
+		return false
+		
+	var archivo := FileAccess.open(ruta, FileAccess.READ)
+	if archivo == null:
+		return false
+		
+	var contenido: String = archivo.get_as_text()
+	archivo.close()
+	
+	var json_parseado = JSON.parse_string(contenido)
+	if typeof(json_parseado) != TYPE_DICTIONARY:
+		return false
+		
+	var datos: Dictionary = json_parseado
+	slot_activo = num_slot
+	eco_monedas = int(datos.get("eco_monedas", 100))
+	
+	# Restaurar inventario asegurando valores enteros
+	var inv_raw: Dictionary = datos.get("inventario_datos", {})
+	for clave in inv_raw:
+		inventario_datos[str(clave)] = int(inv_raw[clave])
+		
+	# Restaurar hotbar tipada
+	var hb_raw: Array = datos.get("hotbar_items", ["", "", "", "", ""])
+	hotbar_items = ["", "", "", "", ""]
+	for i in range(min(5, hb_raw.size())):
+		hotbar_items[i] = str(hb_raw[i])
+	slot_seleccionado = int(datos.get("slot_seleccionado", 0))
+	
+	# Restaurar pedidos activos
+	pedidos_activos.clear()
+	var ped_raw: Array = datos.get("pedidos_activos", [])
+	for p in ped_raw:
+		if typeof(p) == TYPE_DICTIONARY:
+			pedidos_activos.append({
+				"item": str(p.get("item", "")),
+				"cantidad": int(p.get("cantidad", 1)),
+				"recompensa": int(p.get("recompensa", 25))
+			})
+			
+	exhibicion_guardada = datos.get("exhibicion_guardada", {}).duplicate(true)
+	tierra_guardada = _deserializar_dict_vec2i(datos.get("tierra_guardada", {}))
+	plantas_guardadas = _deserializar_dict_vec2i(datos.get("plantas_guardadas", {}))
+	
+	actualizar_ui_monedas()
+	seleccionar_slot_hotbar(slot_seleccionado)
+	generar_slots_inventario()
+	dibujar_items_hotbar()
+	_guardar_ultimo_slot(num_slot)
+	
+	var escena_destino: String = str(datos.get("escena", "res://jardin.tscn"))
+	if has_node("/root/Transicion"):
+		Transicion.viene_de_transicion = false
+	set_hud_visible(true)
+	var escena_destino: String = str(datos.get("escena", "res://jardin.tscn"))
+	get_tree().change_scene_to_file(escena_destino)
+	return true
+
+func obtener_info_slot(num_slot: int) -> Dictionary:
+	var ruta: String = _obtener_ruta_slot(num_slot)
+	if not FileAccess.file_exists(ruta):
+		return { "ocupado": false }
+		
+	var archivo := FileAccess.open(ruta, FileAccess.READ)
+	if archivo == null:
+		return { "ocupado": false }
+		
+	var json_parseado = JSON.parse_string(archivo.get_as_text())
+	archivo.close()
+	
+	if typeof(json_parseado) != TYPE_DICTIONARY:
+		return { "ocupado": false }
+		
+	var datos: Dictionary = json_parseado
+	return {
+		"ocupado": true,
+		"monedas": int(datos.get("eco_monedas", 0)),
+		"fecha": str(datos.get("fecha", ""))
+	}
+
+func obtener_ultimo_slot_jugado() -> int:
+	if FileAccess.file_exists(RUTA_CONFIG_SLOTS):
+		var archivo := FileAccess.open(RUTA_CONFIG_SLOTS, FileAccess.READ)
+		if archivo:
+			var parsed = JSON.parse_string(archivo.get_as_text())
+			archivo.close()
+			if typeof(parsed) == TYPE_DICTIONARY:
+				var ultimo: int = int(parsed.get("ultimo_slot", 0))
+				if ultimo >= 1 and ultimo <= MAX_SLOTS and FileAccess.file_exists(_obtener_ruta_slot(ultimo)):
+					return ultimo
+	# Respaldo: devuelve el primer slot ocupado si existe
+	for i in range(1, MAX_SLOTS + 1):
+		if FileAccess.file_exists(_obtener_ruta_slot(i)):
+			return i
+	return 0
+
+func _guardar_ultimo_slot(num_slot: int) -> void:
+	var archivo := FileAccess.open(RUTA_CONFIG_SLOTS, FileAccess.WRITE)
+	if archivo:
+		archivo.store_string(JSON.stringify({ "ultimo_slot": num_slot }))
+		archivo.close()
+
+func _obtener_ruta_slot(num_slot: int) -> String:
+	return "user://partida_slot_%d.json" % num_slot
+
+func _serializar_dict_vec2i(origen: Dictionary) -> Dictionary:
+	var resultado: Dictionary = {}
+	for coord in origen:
+		if coord is Vector2i:
+			var clave_str := "%d,%d" % [coord.x, coord.y]
+			var valor = origen[coord]
+			if valor is Vector2i:
+				resultado[clave_str] = { "_vec2i": [valor.x, valor.y] }
+			else:
+				resultado[clave_str] = valor
+	return resultado
+
+func _deserializar_dict_vec2i(origen: Dictionary) -> Dictionary:
+	var resultado: Dictionary = {}
+	for clave_str in origen:
+		var partes: PackedStringArray = str(clave_str).split(",")
+		if partes.size() == 2:
+			var coord := Vector2i(int(partes[0]), int(partes[1]))
+			var valor = origen[clave_str]
+			if typeof(valor) == TYPE_DICTIONARY:
+				if valor.has("_vec2i"):
+					var arr: Array = valor["_vec2i"]
+					resultado[coord] = Vector2i(int(arr[0]), int(arr[1]))
+				else:
+					var copia_limpia: Dictionary = valor.duplicate(true)
+					if copia_limpia.has("estado"):
+						copia_limpia["estado"] = int(copia_limpia["estado"])
+					resultado[coord] = copia_limpia
+			else:
+				resultado[coord] = valor
+	return resultado
+
+func set_hud_visible(es_visible: bool) -> void:
+	if has_node("InventarioUI"):
+		$InventarioUI.visible = es_visible
