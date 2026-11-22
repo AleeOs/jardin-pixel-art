@@ -33,7 +33,7 @@ region = Rect2(242, 81, 12, 14)
 atlas = ExtResource("3_m8xaq")
 region = Rect2(258, 83, 12, 12)
 
-[node name="PanelSlots" type="Control" unique_id=245364903]
+[node name="panel_slots" type="Control" unique_id=1026911498]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,7 +44,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6va6g")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=2014395792]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1237190523]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.54901963)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=128486529]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=814961984]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -61,15 +61,15 @@ anchor_left = 0.53800005
 anchor_top = 0.58500004
 anchor_right = 0.53800005
 anchor_bottom = 0.58500004
-offset_left = -153.52606
-offset_top = -172.08002
-offset_right = 154.22394
-offset_bottom = 171.91998
+offset_left = -315.0
+offset_top = -258.0
+offset_right = 331.0
+offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_1vivr")
 
-[node name="LabelTitulo" type="Label" parent="TextureRect" unique_id=1699105549]
+[node name="LabelTitulo" type="Label" parent="TextureRect" unique_id=102299045]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -77,17 +77,17 @@ anchor_left = 0.5
 anchor_top = 0.102000006
 anchor_right = 0.5
 anchor_bottom = 0.102000006
-offset_left = -78.125
-offset_top = -10.088001
-offset_right = 98.875
-offset_bottom = 12.911999
+offset_left = -158.0
+offset_top = -5.3060036
+offset_right = 19.0
+offset_bottom = 7.6939964
 grow_horizontal = 2
-scale = Vector2(0.90040314, 1.3795165)
+scale = Vector2(1.8138219, 2.7536433)
 theme_override_fonts/font = ExtResource("2_6va6g")
 text = "SELECCIONAR RANURA"
 horizontal_alignment = 1
 
-[node name="ContenedorSlots" type="VBoxContainer" parent="TextureRect" unique_id=1427970026]
+[node name="ContenedorSlots" type="VBoxContainer" parent="TextureRect" unique_id=1635694990]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -95,16 +95,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -83.125
-offset_top = -89.0
-offset_right = 96.875
-offset_bottom = 23.0
+offset_left = -167.0
+offset_top = -129.5
+offset_right = 13.0
+offset_bottom = -17.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.90991133, 1.6173916)
+scale = Vector2(1.7846788, 2.3257124)
 theme_override_constants/separation = 8
 
-[node name="Slot1" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1488298835]
+[node name="Slot1" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=154729646]
 custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -113,21 +113,24 @@ texture_pressed = SubResource("AtlasTexture_auskg")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=483279670]
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=54450553]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 5.0
+offset_left = 2.2413073
+offset_top = 1.7199116
+offset_right = -1.8166809
+offset_bottom = -0.6117687
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Slot2" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1533989384]
+[node name="Slot2" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1821544616]
 custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -136,21 +139,24 @@ texture_pressed = SubResource("AtlasTexture_d2pp6")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot2" unique_id=1228381477]
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot2" unique_id=588038896]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 5.0
+offset_left = 1.6809797
+offset_top = 0.84769297
+offset_right = -1.2563324
+offset_bottom = -0.62402534
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Slot3" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=729071973]
+[node name="Slot3" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=656461841]
 custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -159,30 +165,33 @@ texture_pressed = SubResource("AtlasTexture_d2pp6")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot3" unique_id=986501402]
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot3" unique_id=486337684]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 5.0
+offset_left = 1.6809726
+offset_top = 0.8354368
+offset_right = -1.8166809
+offset_bottom = -0.6362877
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BotonCerrar" type="TextureButton" parent="TextureRect" unique_id=381969385]
+[node name="BotonCerrar" type="TextureButton" parent="TextureRect" unique_id=1968165549]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -51.0
-offset_top = 22.999998
-offset_right = -39.0
-offset_bottom = 37.0
+offset_left = -105.0
+offset_top = 30.0
+offset_right = -93.0
+offset_bottom = 44.0
 grow_horizontal = 0
-scale = Vector2(2.181981, 2.125232)
+scale = Vector2(4.895653, 4.9927344)
 texture_normal = SubResource("AtlasTexture_0sxyj")
 texture_pressed = SubResource("AtlasTexture_s5u3a")

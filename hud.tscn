@@ -764,6 +764,7 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="VentanaTienda" type="NinePatchRect" parent="InventarioUI" unique_id=736447620]
+visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -1219,56 +1220,5 @@ text = "Salir del Juego"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelSlotsPausa" parent="InventarioUI" unique_id=245364903 instance=ExtResource("6_1xsix")]
-visible = false
+[node name="PanelSlotsPausa" parent="InventarioUI" unique_id=1026911498 instance=ExtResource("6_1xsix")]
 layout_mode = 1
-
-[node name="TextureRect" parent="InventarioUI/PanelSlotsPausa" index="1" unique_id=128486529]
-offset_left = -315.0
-offset_top = -258.0
-offset_right = 331.0
-offset_bottom = 245.0
-
-[node name="LabelTitulo" parent="InventarioUI/PanelSlotsPausa/TextureRect" index="0" unique_id=1699105549]
-offset_left = -158.0
-offset_top = -5.3060036
-offset_right = 19.0
-offset_bottom = 7.6939964
-scale = Vector2(1.8138219, 2.7536433)
-
-[node name="ContenedorSlots" parent="InventarioUI/PanelSlotsPausa/TextureRect" index="1" unique_id=1427970026]
-offset_left = -167.0
-offset_top = -129.5
-offset_right = 13.0
-offset_bottom = -17.5
-scale = Vector2(1.7846788, 2.3257124)
-
-[node name="TextoSlot" parent="InventarioUI/PanelSlotsPausa/TextureRect/ContenedorSlots/Slot1" parent_id_path=PackedInt32Array(245364903, 1488298835) index="0" unique_id=483279670]
-offset_left = 2.2413073
-offset_top = 1.7199116
-offset_right = -1.8166809
-offset_bottom = -0.6117687
-theme_override_font_sizes/font_size = 16
-
-[node name="TextoSlot" parent="InventarioUI/PanelSlotsPausa/TextureRect/ContenedorSlots/Slot2" parent_id_path=PackedInt32Array(245364903, 1533989384) index="0" unique_id=1228381477]
-offset_left = 1.6809797
-offset_top = 0.84769297
-offset_right = -1.2563324
-offset_bottom = -0.62402534
-theme_override_font_sizes/font_size = 16
-
-[node name="TextoSlot" parent="InventarioUI/PanelSlotsPausa/TextureRect/ContenedorSlots/Slot3" parent_id_path=PackedInt32Array(245364903, 729071973) index="0" unique_id=986501402]
-offset_left = 1.6809726
-offset_top = 0.8354368
-offset_right = -1.8166809
-offset_bottom = -0.6362877
-theme_override_font_sizes/font_size = 16
-
-[node name="BotonCerrar" parent="InventarioUI/PanelSlotsPausa/TextureRect" index="2" unique_id=381969385]
-offset_left = -105.0
-offset_top = 30.0
-offset_right = -93.0
-offset_bottom = 44.0
-scale = Vector2(4.895653, 4.9927344)
-
-[editable path="InventarioUI/PanelSlotsPausa"]

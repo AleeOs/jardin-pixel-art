@@ -1,0 +1,196 @@
+[gd_scene format=3 uid="uid://connjq4u5kr7k"]
+
+[ext_resource type="Texture2D" uid="uid://rxtu1c4pqqsi" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Setting menu.png" id="1_aqwrv"]
+[ext_resource type="Script" uid="uid://jfnqqoekk1t4" path="res://menu_inicio.gd" id="1_cxoyd"]
+[ext_resource type="FontFile" uid="uid://dmyjfqdkkt15m" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="2_cxoyd"]
+[ext_resource type="Texture2D" uid="uid://cwtnx0quiss2n" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png" id="3_kt2nm"]
+[ext_resource type="PackedScene" uid="uid://bkdu5nkhv4cup" path="res://panel_slots.tscn" id="5_kt2nm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vivr"]
+atlas = ExtResource("1_aqwrv")
+region = Rect2(136, 10, 112, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vrlf"]
+atlas = ExtResource("3_kt2nm")
+region = Rect2(161, 177, 94, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbdty"]
+atlas = ExtResource("3_kt2nm")
+region = Rect2(257, 177, 93, 29)
+
+[node name="MenuInicio" type="Control" unique_id=868466038]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cxoyd")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1307659967]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1764706, 0.26666668, 0.14117648, 0.003921569)
+
+[node name="MarcoInicio" type="TextureRect" parent="." unique_id=1907348102]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.0
+offset_top = -240.0
+offset_right = 323.5
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_1vivr")
+
+[node name="LabelTitulo" type="Label" parent="MarcoInicio" unique_id=1765021989]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -84.5
+offset_top = 24.0
+offset_right = 8.5
+offset_bottom = 37.0
+grow_horizontal = 2
+scale = Vector2(1.814, 1.814)
+theme_override_fonts/font = ExtResource("2_cxoyd")
+text = "Sell Plants"
+
+[node name="ContenedorBotones" type="VBoxContainer" parent="MarcoInicio" unique_id=1818700507]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -20.0
+offset_right = 95.94202
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="BotonContinuar" type="TextureButton" parent="MarcoInicio/ContenedorBotones" unique_id=1266882039]
+custom_minimum_size = Vector2(160, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_qbdty")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarcoInicio/ContenedorBotones/BotonContinuar" unique_id=835138949]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -7.0
+offset_right = 35.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_cxoyd")
+theme_override_font_sizes/font_size = 14
+text = "CONTINUAR
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonNuevaPartida" type="TextureButton" parent="MarcoInicio/ContenedorBotones" unique_id=1910333133]
+custom_minimum_size = Vector2(160, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_qbdty")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarcoInicio/ContenedorBotones/BotonNuevaPartida" unique_id=887913779]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -13.0
+offset_right = 48.5
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_cxoyd")
+theme_override_font_sizes/font_size = 14
+text = "NUEVA PARTIDA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonCargarPartida" type="TextureButton" parent="MarcoInicio/ContenedorBotones" unique_id=2082354007]
+custom_minimum_size = Vector2(160, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_qbdty")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarcoInicio/ContenedorBotones/BotonCargarPartida" unique_id=8966936]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -14.0
+offset_right = 52.5
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_cxoyd")
+theme_override_font_sizes/font_size = 14
+text = "CARGAR PARTIDA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotonSalir" type="TextureButton" parent="MarcoInicio/ContenedorBotones" unique_id=603780617]
+custom_minimum_size = Vector2(160, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_8vrlf")
+texture_pressed = SubResource("AtlasTexture_qbdty")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarcoInicio/ContenedorBotones/BotonSalir" unique_id=1839865396]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -14.0
+offset_right = 35.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_cxoyd")
+theme_override_font_sizes/font_size = 14
+text = "SALIR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelSlotsInicio" parent="." unique_id=1026911498 instance=ExtResource("5_kt2nm")]
+visible = false
+layout_mode = 1

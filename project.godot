@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="JardinVirtual"
-run/main_scene="uid://n2rbjr7eyqss"
+run/main_scene="uid://connjq4u5kr7k"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
