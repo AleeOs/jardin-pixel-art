@@ -33,7 +33,7 @@ func abrir(modo: Modo) -> void:
 			btn.disabled = false
 			btn.modulate = Color(1, 1, 1)
 			if lbl:
-				lbl.text = "Ranura %d: $%d (%s)" % [i, info["monedas"], str(info["fecha"]).substr(0, 16)]
+				lbl.text = "Ranura %d - $%d" % [i, info["monedas"]]
 		else:
 			btn.disabled = (modo == Modo.CARGAR)
 			btn.modulate = Color(0.6, 0.6, 0.6, 0.8) if modo == Modo.CARGAR else Color(1, 1, 1)

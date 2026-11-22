@@ -25,14 +25,6 @@ region = Rect2(162, 177, 92, 29)
 atlas = ExtResource("3_m8xaq")
 region = Rect2(258, 179, 92, 27)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u7cuq"]
-atlas = ExtResource("3_m8xaq")
-region = Rect2(161, 176, 94, 31)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o5tgd"]
-atlas = ExtResource("3_m8xaq")
-region = Rect2(258, 179, 92, 27)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0sxyj"]
 atlas = ExtResource("3_m8xaq")
 region = Rect2(242, 81, 12, 14)
@@ -43,9 +35,11 @@ region = Rect2(258, 83, 12, 12)
 
 [node name="PanelSlots" type="Control" unique_id=245364903]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6va6g")
@@ -62,15 +56,15 @@ color = Color(0, 0, 0, 0.54901963)
 [node name="TextureRect" type="TextureRect" parent="." unique_id=128486529]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -109.75
-offset_top = -117.0
-offset_right = 109.75
-offset_bottom = 117.0
+anchors_preset = -1
+anchor_left = 0.53800005
+anchor_top = 0.58500004
+anchor_right = 0.53800005
+anchor_bottom = 0.58500004
+offset_left = -153.52606
+offset_top = -172.08002
+offset_right = 154.22394
+offset_bottom = 171.91998
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_1vivr")
@@ -78,78 +72,117 @@ texture = SubResource("AtlasTexture_1vivr")
 [node name="LabelTitulo" type="Label" parent="TextureRect" unique_id=1699105549]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
+anchor_top = 0.102000006
 anchor_right = 0.5
-offset_left = -64.0
-offset_top = 16.999998
-offset_right = 113.0
-offset_bottom = 40.0
+anchor_bottom = 0.102000006
+offset_left = -78.125
+offset_top = -10.088001
+offset_right = 98.875
+offset_bottom = 12.911999
 grow_horizontal = 2
-scale = Vector2(0.74677545, 0.7485172)
+scale = Vector2(0.90040314, 1.3795165)
 theme_override_fonts/font = ExtResource("2_6va6g")
 text = "SELECCIONAR RANURA"
 horizontal_alignment = 1
 
 [node name="ContenedorSlots" type="VBoxContainer" parent="TextureRect" unique_id=1427970026]
+texture_filter = 1
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -43.0
-offset_right = 174.0
-offset_bottom = 69.0
+offset_left = -83.125
+offset_top = -89.0
+offset_right = 96.875
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.90991133, 1.6173916)
 theme_override_constants/separation = 8
 
 [node name="Slot1" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1488298835]
-custom_minimum_size = Vector2(220, 32)
+custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 texture_normal = SubResource("AtlasTexture_8vrlf")
 texture_pressed = SubResource("AtlasTexture_auskg")
 ignore_texture_size = true
+stretch_mode = 0
 
 [node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=483279670]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6va6g")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Slot2" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=1533989384]
-custom_minimum_size = Vector2(220, 32)
+custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
 size_flags_horizontal = 0
 texture_normal = SubResource("AtlasTexture_qbdty")
 texture_pressed = SubResource("AtlasTexture_d2pp6")
 ignore_texture_size = true
+stretch_mode = 0
 
 [node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot2" unique_id=1228381477]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6va6g")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Slot3" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=2098934343]
-custom_minimum_size = Vector2(220, 32)
+[node name="Slot3" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=729071973]
+custom_minimum_size = Vector2(180, 32)
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_u7cuq")
-texture_pressed = SubResource("AtlasTexture_o5tgd")
+size_flags_horizontal = 0
+texture_normal = SubResource("AtlasTexture_qbdty")
+texture_pressed = SubResource("AtlasTexture_d2pp6")
 ignore_texture_size = true
+stretch_mode = 0
 
-[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot3" unique_id=752652445]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot3" unique_id=986501402]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6va6g")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BotonCerrar" type="TextureButton" parent="TextureRect" unique_id=381969385]
-layout_mode = 0
-offset_left = 184.75002
-offset_top = 17.0
-offset_right = 196.75002
-offset_bottom = 31.0
-scale = Vector2(1.5080323, 1.3345325)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -51.0
+offset_top = 22.999998
+offset_right = -39.0
+offset_bottom = 37.0
+grow_horizontal = 0
+scale = Vector2(2.181981, 2.125232)
 texture_normal = SubResource("AtlasTexture_0sxyj")
 texture_pressed = SubResource("AtlasTexture_s5u3a")

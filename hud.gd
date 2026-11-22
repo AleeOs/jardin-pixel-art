@@ -16,6 +16,9 @@ signal monedas_cambiadas(nueva_cantidad: int)
 # --- NODOS DE ECONOMÍA Y TIENDA ---
 @onready var label_monedas: Label = $InventarioUI.find_child("LabelMonedas", true, false)
 @onready var boton_pausa: BaseButton = $InventarioUI.find_child("BotonPausa", true, false)
+@onready var ventana_pausa: Control = $InventarioUI.find_child("VentanaPausa", true, false)
+@onready var panel_slots_pausa: Control = $InventarioUI.find_child("PanelSlotsPausa", true, false)
+
 @onready var boton_tienda: TextureButton = $InventarioUI/BotonTienda
 @onready var ventana_tienda: Control = $InventarioUI/VentanaTienda
 @onready var grid_tienda: GridContainer = $InventarioUI/VentanaTienda/GridTienda
@@ -177,6 +180,24 @@ func _ready() -> void:
 		boton_pedidos.pressed.connect(toggle_pedidos)
 	if boton_pausa:
 		boton_pausa.pressed.connect(toggle_pausa)
+	
+	if ventana_pausa:
+		ventana_pausa.visible = false
+		var btn_reanudar := ventana_pausa.find_child("BotonReanudar", true, false) as BaseButton
+		var btn_guardar := ventana_pausa.find_child("BotonGuardar", true, false) as BaseButton
+		var btn_guardar_salir := ventana_pausa.find_child("BotonGuardarYSalir", true, false) as BaseButton
+		var btn_salir := ventana_pausa.find_child("BotonSalirJuego", true, false) as BaseButton
+		
+		if btn_reanudar: btn_reanudar.pressed.connect(toggle_pausa)
+		if btn_guardar: btn_guardar.pressed.connect(_abrir_guardado_pausa)
+		if btn_guardar_salir: btn_guardar_salir.pressed.connect(_on_guardar_y_salir_inicio)
+		if btn_salir:
+			btn_salir.visible = not OS.has_feature("web")
+			btn_salir.pressed.connect(func(): get_tree().quit())
+			
+	if panel_slots_pausa:
+		panel_slots_pausa.slot_seleccionado.connect(_on_slot_pausa_elegido)	
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -500,12 +521,45 @@ func entregar_pedido(index: int) -> void:
 		dibujar_items_hotbar()
 		generar_lista_pedidos()
 
+var _salir_tras_guardar: bool = false
+
 func toggle_pausa() -> void:
 	pausa_abierta = !pausa_abierta
 	if pausa_abierta:
 		cerrar_menus()
+	else:
+		_salir_tras_guardar = false
+		if panel_slots_pausa:
+			panel_slots_pausa.visible = false
+	if ventana_pausa:
+		ventana_pausa.visible = pausa_abierta
 	pausa_cambiada.emit(pausa_abierta)
 	estado_inventario_cambiado.emit(esta_juego_pausado())
+
+func _abrir_guardado_pausa() -> void:
+	if panel_slots_pausa:
+		panel_slots_pausa.abrir(panel_slots_pausa.Modo.GUARDAR)
+
+func _on_guardar_y_salir_inicio() -> void:
+	if slot_activo >= 1 and slot_activo <= MAX_SLOTS:
+		guardar_en_slot(slot_activo)
+		_volver_a_menu_inicio()
+	elif panel_slots_pausa:
+		_salir_tras_guardar = true
+		panel_slots_pausa.abrir(panel_slots_pausa.Modo.GUARDAR)
+
+func _on_slot_pausa_elegido(num_slot: int, _modo: int) -> void:
+	guardar_en_slot(num_slot)
+	if _salir_tras_guardar:
+		_salir_tras_guardar = false
+		_volver_a_menu_inicio()
+
+func _volver_a_menu_inicio() -> void:
+	pausa_abierta = false
+	if ventana_pausa:
+		ventana_pausa.visible = false
+	set_hud_visible(false)
+	get_tree().change_scene_to_file("res://menu_inicio.tscn")
 
 func esta_juego_pausado() -> bool:
 	return dialogo_npc_abierto or inventario_abierto or tienda_abierta or pedidos_abierto or pausa_abierta
@@ -620,7 +674,7 @@ func cargar_desde_slot(num_slot: int) -> bool:
 	dibujar_items_hotbar()
 	_guardar_ultimo_slot(num_slot)
 	
-	var escena_destino: String = str(datos.get("escena", "res://jardin.tscn"))
+	
 	if has_node("/root/Transicion"):
 		Transicion.viene_de_transicion = false
 	set_hud_visible(true)
