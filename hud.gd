@@ -9,6 +9,7 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var boton_inventario: TextureButton = $InventarioUI/BotonInventario
 @onready var grid_semillas: GridContainer = $InventarioUI/VentanaInventario/GridSemillas
 @onready var slot_plantilla: Control = $InventarioUI/VentanaInventario/GridSemillas/SlotPlantilla
+@onready var titulo_inventario: Label = $InventarioUI/VentanaInventario.find_child("TituloInventario", true, false)
 
 @onready var boton_anterior: TextureButton = $InventarioUI/VentanaInventario/BotonAnterior
 @onready var boton_siguiente: TextureButton = $InventarioUI/VentanaInventario/BotonSiguiente
@@ -283,6 +284,13 @@ func generar_slots_inventario() -> void:
 	for hijo in grid_semillas.get_children():
 		if hijo != slot_plantilla:
 			hijo.queue_free()
+			
+	if titulo_inventario:
+		titulo_inventario.text = "SEMILLAS (1/2)" if pagina_actual == 0 else "COSECHAS (2/2)"
+	if boton_anterior:
+		boton_anterior.modulate = Color(1, 1, 1, 0.4) if pagina_actual == 0 else Color(1, 1, 1, 1)
+	if boton_siguiente:
+		boton_siguiente.modulate = Color(1, 1, 1, 0.4) if pagina_actual == 1 else Color(1, 1, 1, 1)
 			
 	var lista_a_mostrar = lista_semillas if pagina_actual == 0 else lista_cosechas
 			

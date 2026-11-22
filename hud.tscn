@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://d3w7glpxy6nr4" path="res://hud.gd" id="1_640wx"]
 [ext_resource type="Texture2D" uid="uid://cwtnx0quiss2n" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png" id="2_a2258"]
 [ext_resource type="Texture2D" uid="uid://cku2r2cjdcfvb" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Basic Plants.png" id="3_1xsix"]
+[ext_resource type="Texture2D" uid="uid://eoldlj3ndkg0" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Icons/Mochilaa.png" id="4_rftc2"]
 [ext_resource type="Texture2D" uid="uid://rxtu1c4pqqsi" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Setting menu.png" id="5_1xsix"]
 [ext_resource type="PackedScene" uid="uid://bkdu5nkhv4cup" path="res://panel_slots.tscn" id="6_1xsix"]
 [ext_resource type="FontFile" uid="uid://dmyjfqdkkt15m" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="6_rftc2"]
@@ -274,6 +275,9 @@ region = Rect2(10, 57, 28, 32)
 atlas = ExtResource("2_a2258")
 region = Rect2(58, 58, 28, 28)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ql4es"]
+atlas = ExtResource("4_rftc2")
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2258"]
 atlas = ExtResource("2_a2258")
 region = Rect2(772, 98, 25, 27)
@@ -446,19 +450,18 @@ theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
 
-[node name="Slot2" type="Control" parent="InventarioUI/HotbarContainer" unique_id=1937037903]
+[node name="Slot2" type="Control" parent="InventarioUI/HotbarContainer" unique_id=1626549295]
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 
-[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot2" unique_id=1399998690]
+[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot2" unique_id=753688604]
 position = Vector2(65.5, 65)
 scale = Vector2(2.8, 2.7333333)
 texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1076536316]
-visible = false
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1028177708]
 custom_minimum_size = Vector2(16, 16)
 anchors_preset = 8
 anchor_left = 0.5
@@ -475,30 +478,29 @@ texture = ExtResource("3_1xsix")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1195121256]
-visible = false
+[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot2/MarcoUI" unique_id=1479014524]
 texture_filter = 1
-offset_left = 15.714294
-offset_top = -6.585371
-offset_right = 43.714294
-offset_bottom = 16.414629
+offset_left = 13.571426
+offset_top = -2.5609808
+offset_right = 31.571426
+offset_bottom = 10.439019
+scale = Vector2(0.5044328, 0.4509076)
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
 
-[node name="Slot3" type="Control" parent="InventarioUI/HotbarContainer" unique_id=461647515]
+[node name="Slot3" type="Control" parent="InventarioUI/HotbarContainer" unique_id=1995314200]
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 
-[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot3" unique_id=1484368016]
+[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot3" unique_id=1471085238]
 position = Vector2(65.5, 65)
 scale = Vector2(2.8, 2.7333333)
 texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=552502433]
-visible = false
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=1640524013]
 custom_minimum_size = Vector2(16, 16)
 anchors_preset = 8
 anchor_left = 0.5
@@ -515,30 +517,29 @@ texture = ExtResource("3_1xsix")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=827323721]
-visible = false
+[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot3/MarcoUI" unique_id=1950180373]
 texture_filter = 1
-offset_left = 15.714294
-offset_top = -6.585371
-offset_right = 43.714294
-offset_bottom = 16.414629
+offset_left = 13.571426
+offset_top = -2.5609808
+offset_right = 31.571426
+offset_bottom = 10.439019
+scale = Vector2(0.5044328, 0.4509076)
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
 
-[node name="Slot4" type="Control" parent="InventarioUI/HotbarContainer" unique_id=1419613303]
+[node name="Slot4" type="Control" parent="InventarioUI/HotbarContainer" unique_id=608510919]
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 
-[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot4" unique_id=1081760411]
+[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot4" unique_id=1020749460]
 position = Vector2(65.5, 65)
 scale = Vector2(2.8, 2.7333333)
 texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=2142832831]
-visible = false
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=1215644795]
 custom_minimum_size = Vector2(16, 16)
 anchors_preset = 8
 anchor_left = 0.5
@@ -555,30 +556,29 @@ texture = ExtResource("3_1xsix")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=1537120587]
-visible = false
+[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot4/MarcoUI" unique_id=1892926117]
 texture_filter = 1
-offset_left = 15.714294
-offset_top = -6.585371
-offset_right = 43.714294
-offset_bottom = 16.414629
+offset_left = 13.571426
+offset_top = -2.5609808
+offset_right = 31.571426
+offset_bottom = 10.439019
+scale = Vector2(0.5044328, 0.4509076)
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
 
-[node name="Slot5" type="Control" parent="InventarioUI/HotbarContainer" unique_id=569947071]
+[node name="Slot5" type="Control" parent="InventarioUI/HotbarContainer" unique_id=551430903]
 custom_minimum_size = Vector2(125, 125)
 layout_mode = 2
 
-[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot5" unique_id=114651354]
+[node name="MarcoUI" type="Sprite2D" parent="InventarioUI/HotbarContainer/Slot5" unique_id=356327649]
 position = Vector2(65.5, 65)
 scale = Vector2(2.8, 2.7333333)
 texture = SubResource("AtlasTexture_qwt81")
 region_enabled = true
 region_rect = Rect2(201, 9, 30, 30)
 
-[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=252036875]
-visible = false
+[node name="IconoTrigo" type="TextureRect" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=1437855859]
 custom_minimum_size = Vector2(16, 16)
 anchors_preset = 8
 anchor_left = 0.5
@@ -595,13 +595,13 @@ texture = ExtResource("3_1xsix")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=753819818]
-visible = false
+[node name="CantidadText" type="Label" parent="InventarioUI/HotbarContainer/Slot5/MarcoUI" unique_id=1551816351]
 texture_filter = 1
-offset_left = 15.714294
-offset_top = -6.585371
-offset_right = 43.714294
-offset_bottom = 16.414629
+offset_left = 13.571426
+offset_top = -2.5609808
+offset_right = 31.571426
+offset_bottom = 10.439019
+scale = Vector2(0.5044328, 0.4509076)
 theme_override_fonts/font = SubResource("FontFile_amv7k")
 theme_override_font_sizes/font_size = 16
 text = "x0"
@@ -620,6 +620,22 @@ scale = Vector2(3, 3)
 focus_mode = 0
 texture_normal = SubResource("AtlasTexture_rftc2")
 texture_pressed = SubResource("AtlasTexture_gpiub")
+
+[node name="IconoInventario" type="TextureRect" parent="InventarioUI/BotonInventario" unique_id=1733537176]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0000205
+offset_top = 2.0
+offset_right = -1.999979
+offset_bottom = -4.333332
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_ql4es")
+expand_mode = 1
 
 [node name="BotonTienda" type="TextureButton" parent="InventarioUI" unique_id=1466843022]
 layout_mode = 1
@@ -652,7 +668,6 @@ texture_normal = SubResource("AtlasTexture_1fv7p")
 texture_pressed = SubResource("AtlasTexture_4u2vk")
 
 [node name="VentanaInventario" type="NinePatchRect" parent="InventarioUI" unique_id=2014782995]
-visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -669,7 +684,8 @@ grow_vertical = 2
 texture = ExtResource("5_1xsix")
 region_rect = Rect2(139, 12, 107, 123)
 
-[node name="Label" type="Label" parent="InventarioUI/VentanaInventario" unique_id=699272781]
+[node name="TituloInventario" type="Label" parent="InventarioUI/VentanaInventario" unique_id=699272781]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -1221,4 +1237,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PanelSlotsPausa" parent="InventarioUI" unique_id=1026911498 instance=ExtResource("6_1xsix")]
+visible = false
 layout_mode = 1
