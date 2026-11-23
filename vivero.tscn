@@ -42,7 +42,7 @@ texture = ExtResource("2_qnqlk")
 physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_t1wcd")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hjg5l"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v3e5l"]
 texture = ExtResource("5_h7lx2")
 0:0/0 = 0
 0:1/0 = 0
@@ -55,7 +55,7 @@ texture = ExtResource("5_h7lx2")
 2:3/0 = 0
 3:3/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rica0"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p6ayt"]
 texture = ExtResource("7_p6ayt")
 0:0/0 = 0
 1:0/0 = 0
@@ -196,11 +196,11 @@ texture = ExtResource("8_p6ayt")
 
 [sub_resource type="TileSet" id="TileSet_1vivr"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_hjg5l")
-sources/1 = SubResource("TileSetAtlasSource_rica0")
+sources/0 = SubResource("TileSetAtlasSource_v3e5l")
+sources/1 = SubResource("TileSetAtlasSource_p6ayt")
 sources/2 = SubResource("TileSetAtlasSource_l7vtq")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yyeis"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rica0"]
 texture = ExtResource("2_qnqlk")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(2.1583042, -8, 8, -8, 8, 8, 1.978447, 8)
@@ -228,7 +228,7 @@ texture = ExtResource("2_qnqlk")
 
 [sub_resource type="TileSet" id="TileSet_8vrlf"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_yyeis")
+sources/0 = SubResource("TileSetAtlasSource_rica0")
 
 [node name="Vivero" type="Node2D" unique_id=1796017101]
 y_sort_enabled = true
@@ -269,6 +269,7 @@ position = Vector2(0, -16)
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=476135651]
 stream = ExtResource("5_qnqlk")
 autoplay = true
+bus = &"Musica"
 
 [node name="PisoDecoracion" type="TileMapLayer" parent="." unique_id=662968291]
 tile_map_data = PackedByteArray("AAAkACIAAAAAAAIAAAAkACEAAAACAAEAAAAjACEAAAACAAMAAAAiACEAAAACAAMAAAAhACEAAAACAAMAAAAgACEAAAACAAMAAAAfACEAAAACAAMAAAAeACEAAAACAAMAAAAdACEAAAACAAMAAAAcACEAAAACAAMAAAAbACEAAAACAAMAAAAaACEAAAACAAMAAAAZACEAAAACAAMAAAASACEAAAACAAMAAAATACEAAAACAAMAAAAUACEAAAACAAMAAAAVACEAAAACAAMAAAAWACEAAAACAAMAAAAXACEAAAACAAMAAAAYACEAAAACAAMAAAASAB0AAAACAAMAAAATAB0AAAACAAMAAAAUAB0AAAACAAMAAAAVAB0AAAACAAMAAAAWAB0AAAACAAMAAAAXAB0AAAACAAMAAAAYAB0AAAACAAMAAAAZAB0AAAACAAMAAAAaAB0AAAACAAEAAAAaAB4AAAAAAAEAAAAaAB8AAAAAAAEAAAAaACAAAAAAAAEAAAASAB8AAQABAAAAAAAUAB8AAQABAAEAAAAWAB8AAQAAAAEAAAAYAB8AAQACAAAAAAASABsAAgAAAAYAAAAUABsAAgADAAUAAAAWABsAAgAFAAUAAAAYABsAAgACAAUAAAA=")

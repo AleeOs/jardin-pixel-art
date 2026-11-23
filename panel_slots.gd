@@ -20,6 +20,7 @@ func _ready() -> void:
 
 func abrir(modo: Modo) -> void:
 	modo_actual = modo
+	HudGlobal.atenuar_musica(true)
 	if label_titulo:
 		label_titulo.text = "CARGAR PARTIDA" if modo == Modo.CARGAR else "GUARDAR PARTIDA"
 		
@@ -33,7 +34,7 @@ func abrir(modo: Modo) -> void:
 			btn.disabled = false
 			btn.modulate = Color(1, 1, 1)
 			if lbl:
-				lbl.text = "Ranura %d - $%d" % [i, info["monedas"]]
+				lbl.text = "Ranura %d: %s" % [i, info["fecha"]]
 		else:
 			btn.disabled = (modo == Modo.CARGAR)
 			btn.modulate = Color(0.6, 0.6, 0.6, 0.8) if modo == Modo.CARGAR else Color(1, 1, 1)
@@ -44,6 +45,7 @@ func abrir(modo: Modo) -> void:
 
 func cerrar() -> void:
 	visible = false
+	HudGlobal.atenuar_musica(HudGlobal.esta_juego_pausado())
 
 func _on_slot_presionado(num_slot: int) -> void:
 	cerrar()

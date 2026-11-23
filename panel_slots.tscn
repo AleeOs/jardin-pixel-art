@@ -95,13 +95,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -167.0
-offset_top = -129.5
-offset_right = 13.0
-offset_bottom = -17.5
+offset_left = -196.0
+offset_top = -131.5
+offset_right = -16.0
+offset_bottom = -19.5
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.7846788, 2.3257124)
+scale = Vector2(2.1910453, 2.3003964)
 theme_override_constants/separation = 8
 
 [node name="Slot1" type="TextureButton" parent="TextureRect/ContenedorSlots" unique_id=154729646]
@@ -113,20 +113,20 @@ texture_pressed = SubResource("AtlasTexture_auskg")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=54450553]
+[node name="TextoSlot" type="Label" parent="TextureRect/ContenedorSlots/Slot1" unique_id=713960294]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.2413073
-offset_top = 1.7199116
-offset_right = -1.8166809
-offset_bottom = -0.6117687
+offset_left = 1.6809797
+offset_top = 0.84769297
+offset_right = -1.2563324
+offset_bottom = -0.62402534
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -152,7 +152,7 @@ offset_bottom = -0.62402534
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -178,7 +178,7 @@ offset_bottom = -0.6362877
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6va6g")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
 

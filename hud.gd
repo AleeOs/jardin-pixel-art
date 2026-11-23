@@ -135,6 +135,10 @@ func crear_icono(textura_base: Texture2D, x: int, y: int, ancho: int, alto: int)
 # ----------------------------------
 
 func _ready() -> void:
+	estado_inventario_cambiado.connect(atenuar_musica)
+	
+	if ventana_inventario:
+		ventana_inventario.visible = false
 	if ventana_inventario:
 		ventana_inventario.visible = false
 		
@@ -778,3 +782,16 @@ func set_hotbar_transparente(transparente: bool) -> void:
 		return
 	var tween := create_tween()
 	tween.tween_property(hotbar_container, "modulate:a", 0.25 if transparente else 1.0, 0.2)
+
+func atenuar_musica(atenuar: bool) -> void:
+	var bus_idx := AudioServer.get_bus_index("Musica")
+	if bus_idx == -1:
+		return
+	var destino_db := -14.0 if atenuar else 0.0
+	var tween := create_tween()
+	tween.tween_method(
+		func(val: float): AudioServer.set_bus_volume_db(bus_idx, val),
+		AudioServer.get_bus_volume_db(bus_idx),
+		destino_db,
+		0.25
+	)

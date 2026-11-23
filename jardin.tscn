@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://yi1n50twwohb" path="res://Sprout Lands - Sprites - Basic pack/Sprout Lands - Sprites - Basic pack/Objects/Paths.png" id="11_hbbqj"]
 [ext_resource type="AudioStream" uid="uid://cdvxnlpaoyxtk" path="res://Musica/Música Jardín Sell Plants.mp3" id="12_4awua"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fjkvr"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4awua"]
 texture = ExtResource("1_mjthi")
 0:0/0 = 0
 1:0/0 = 0
@@ -88,9 +88,9 @@ texture = ExtResource("1_mjthi")
 8:6/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_1vivr"]
-sources/1 = SubResource("TileSetAtlasSource_fjkvr")
+sources/1 = SubResource("TileSetAtlasSource_4awua")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8lx7y"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_un7fw"]
 texture = ExtResource("3_8d4kt")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -125,7 +125,7 @@ texture = ExtResource("3_8d4kt")
 3:3/0 = 0
 3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_32rdk"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_455dy"]
 texture = ExtResource("5_gpir0")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -198,7 +198,7 @@ texture = ExtResource("5_gpir0")
 7:4/0 = 0
 8:4/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4awua"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h7klo"]
 texture = ExtResource("6_32rdk")
 0:0/0 = 0
 1:0/0 = 0
@@ -222,9 +222,9 @@ texture = ExtResource("6_32rdk")
 
 [sub_resource type="TileSet" id="TileSet_8vrlf"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_8lx7y")
-sources/1 = SubResource("TileSetAtlasSource_32rdk")
-sources/2 = SubResource("TileSetAtlasSource_4awua")
+sources/0 = SubResource("TileSetAtlasSource_un7fw")
+sources/1 = SubResource("TileSetAtlasSource_455dy")
+sources/2 = SubResource("TileSetAtlasSource_h7klo")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tkmnr"]
 texture = ExtResource("4_fjkvr")
@@ -551,6 +551,7 @@ escena_destino = "uid://bf4sa3va57d16"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1137578774]
 stream = ExtResource("12_4awua")
 autoplay = true
+bus = &"Musica"
 
 [editable path="Player"]
 [editable path="PuertaTransicion"]
