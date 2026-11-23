@@ -18,11 +18,19 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") or body.name == "Player":
 		jugador_cerca = body
+		if direccion_movimiento.y > 0:
+			HudGlobal.set_hotbar_transparente(true)
 
 func _on_body_exited(body: Node2D) -> void:
 	if body == jugador_cerca:
 		jugador_cerca = null
+		if direccion_movimiento.y > 0:
+			HudGlobal.set_hotbar_transparente(false)
 
+func _exit_tree() -> void:
+	if jugador_cerca != null and direccion_movimiento.y > 0:
+		HudGlobal.set_hotbar_transparente(false)
+		
 func _unhandled_input(event: InputEvent) -> void:
 	if es_puerta_npc: return
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -47,6 +55,8 @@ func iniciar_transicion() -> void:
 	
 	anim_gato.play("idle_up" if direccion_movimiento.y < 0 else "idle_down")
 	
+	if direccion_movimiento.y > 0:
+		HudGlobal.set_hotbar_transparente(false)
 	if escena_destino != "":
 		Transicion.cambiar_escena(escena_destino)
 

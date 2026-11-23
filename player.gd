@@ -5,6 +5,7 @@ extends CharacterBody2D
 # Exportamos las dos capas para que las plantas no borren la tierra arada
 @export var cultivo_layer: TileMapLayer
 @export var plantas_layer: TileMapLayer
+@export var objetos_layer: TileMapLayer
 
 # Escena de la espiga flotante de trigo
 @export var trigo_item_scene: PackedScene
@@ -142,9 +143,26 @@ func obtener_coordenada_frente(layer: TileMapLayer) -> Vector2i:
 func arar_tierra() -> void:
 	if not cultivo_layer: return
 	var tile_coord := obtener_coordenada_frente(cultivo_layer)
+	
+	# 1. No arar si ya hay un árbol, cerca, roca o arbusto en la capa de Objetos
+	if objetos_layer and objetos_layer.get_cell_source_id(tile_coord) != -1:
+		return
+		
+	# 2. No arar si hay una puerta, NPC o colisión física en el centro de esa celda
+	var centro_global := cultivo_layer.to_global(cultivo_layer.map_to_local(tile_coord))
+	var query := PhysicsPointQueryParameters2D.new()
+	query.position = centro_global
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	var colisiones := get_world_2d().direct_space_state.intersect_point(query)
+	for hit in colisiones:
+		if hit["collider"] != self:
+			return
+			
 	var tile_elegido: Vector2i = VARIANTES_TIERRA.pick_random()
 	cultivo_layer.set_cell(tile_coord, ID_TIERRA_SOURCE, tile_elegido)
-	
+	HudGlobal.tierra_guardada[tile_coord] = tile_elegido
+
 	# NUEVO: Guardar en el cerebro global
 	HudGlobal.tierra_guardada[tile_coord] = tile_elegido
 	

@@ -772,3 +772,9 @@ func _deserializar_dict_vec2i(origen: Dictionary) -> Dictionary:
 func set_hud_visible(es_visible: bool) -> void:
 	if has_node("InventarioUI"):
 		$InventarioUI.visible = es_visible
+
+func set_hotbar_transparente(transparente: bool) -> void:
+	if not hotbar_container:
+		return
+	var tween := create_tween()
+	tween.tween_property(hotbar_container, "modulate:a", 0.25 if transparente else 1.0, 0.2)
