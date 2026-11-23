@@ -427,7 +427,7 @@ func generar_slots_tienda() -> void:
 			
 		var texto_precio = nuevo_slot.find_child("CantidadTex*", true, false)
 		if texto_precio:
-			texto_precio.text = "$" + str(precio)
+			texto_precio.text = str(precio) + " Eco"
 			texto_precio.modulate = Color(1, 1, 1) if eco_monedas >= precio else Color(1, 0.4, 0.4)
 			
 		nuevo_slot.gui_input.connect(_on_item_tienda_clicado.bind(tipo_semilla))
@@ -570,9 +570,10 @@ func _volver_a_menu_inicio() -> void:
 	pausa_abierta = false
 	if ventana_pausa:
 		ventana_pausa.visible = false
+	atenuar_musica(false)
 	set_hud_visible(false)
 	get_tree().change_scene_to_file("res://menu_inicio.tscn")
-
+	
 func esta_juego_pausado() -> bool:
 	return dialogo_npc_abierto or inventario_abierto or tienda_abierta or pedidos_abierto or pausa_abierta
 

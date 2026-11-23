@@ -21,6 +21,7 @@ var mostrando_jardin: bool = true
 
 func _ready() -> void:
 	HudGlobal.set_hud_visible(false)
+	HudGlobal.atenuar_musica(false)
 	ultimo_slot = HudGlobal.obtener_ultimo_slot_jugado()
 	
 	if escena_jardin: escena_jardin.visible = true

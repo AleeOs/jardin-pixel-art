@@ -39,7 +39,7 @@ func abrir(modo: Modo) -> void:
 			btn.disabled = (modo == Modo.CARGAR)
 			btn.modulate = Color(0.6, 0.6, 0.6, 0.8) if modo == Modo.CARGAR else Color(1, 1, 1)
 			if lbl:
-				lbl.text = "Ranura %d: [ Vacia ]" % i
+				lbl.text = "Ranura %d: ( Vacia )" % i
 				
 	visible = true
 

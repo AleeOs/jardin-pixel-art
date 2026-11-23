@@ -668,6 +668,7 @@ texture_normal = SubResource("AtlasTexture_1fv7p")
 texture_pressed = SubResource("AtlasTexture_4u2vk")
 
 [node name="VentanaInventario" type="NinePatchRect" parent="InventarioUI" unique_id=2014782995]
+visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -780,7 +781,6 @@ ignore_texture_size = true
 stretch_mode = 5
 
 [node name="VentanaTienda" type="NinePatchRect" parent="InventarioUI" unique_id=736447620]
-visible = false
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 1
 anchors_preset = 8
@@ -845,25 +845,13 @@ texture = ExtResource("3_1xsix")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CantidadText" type="Label" parent="InventarioUI/VentanaTienda/GridTienda/SlotPlantilla/MarcoUI" unique_id=1122245722]
-texture_filter = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -7.857149
-offset_top = -24.512194
-offset_right = 10.142853
-offset_bottom = -11.512194
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.47678253, 0.40914297)
-theme_override_fonts/font = SubResource("FontFile_amv7k")
-theme_override_font_sizes/font_size = 16
-text = "x0"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CantidadText" type="Label" parent="InventarioUI/VentanaTienda/GridTienda/SlotPlantilla/MarcoUI" unique_id=2007630348]
+offset_left = 14.285721
+offset_top = -3.6585374
+offset_right = 33.28572
+offset_bottom = 19.341463
+scale = Vector2(0.44351363, 0.3712044)
+text = "$0"
 
 [node name="VentanaPedidos" type="NinePatchRect" parent="InventarioUI" unique_id=6267670]
 visible = false
