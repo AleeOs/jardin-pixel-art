@@ -13,7 +13,7 @@ extends Control
 @onready var panel_slots: Control = find_child("PanelSlotsInicio", true, false)
 
 # Ajusta estas coordenadas al centro visual de cada escenario en tu SubViewport
-const POS_CAMARA_JARDIN := Vector2(275, 110)
+const POS_CAMARA_JARDIN := Vector2(312, 110)
 const POS_CAMARA_VIVERO := Vector2(552, 470)
 
 var ultimo_slot: int = 0
