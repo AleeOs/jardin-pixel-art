@@ -13,7 +13,7 @@ extends Control
 @onready var panel_slots: Control = find_child("PanelSlotsInicio", true, false)
 
 # Ajusta estas coordenadas al centro visual de cada escenario en tu SubViewport
-const POS_CAMARA_JARDIN := Vector2(225, 110)
+const POS_CAMARA_JARDIN := Vector2(275, 110)
 const POS_CAMARA_VIVERO := Vector2(552, 470)
 
 var ultimo_slot: int = 0
@@ -100,18 +100,22 @@ func _configurar_hover_boton(boton: BaseButton) -> void:
 
 func _on_continuar() -> void:
 	if ultimo_slot > 0:
-		HudGlobal.cargar_desde_slot(ultimo_slot)
+		Transicion.ejecutar_con_transicion(func():
+			HudGlobal.cargar_desde_slot(ultimo_slot)
+		)
 
 func _on_nueva_partida() -> void:
-	HudGlobal.reiniciar_estado_partida()
-	if has_node("/root/Transicion"):
-		Transicion.viene_de_transicion = false
-	HudGlobal.set_hud_visible(true)
-	get_tree().change_scene_to_file("res://jardin.tscn")
+	Transicion.ejecutar_con_transicion(func():
+		HudGlobal.reiniciar_estado_partida()
+		HudGlobal.set_hud_visible(true)
+		get_tree().change_scene_to_file("res://jardin.tscn")
+	)
 
 func _on_abrir_cargar() -> void:
 	if panel_slots:
 		panel_slots.abrir(panel_slots.Modo.CARGAR)
 
 func _on_slot_cargado(num_slot: int, _modo: int) -> void:
-	HudGlobal.cargar_desde_slot(num_slot)
+	Transicion.ejecutar_con_transicion(func():
+		HudGlobal.cargar_desde_slot(num_slot)
+	)

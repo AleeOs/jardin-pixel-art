@@ -594,7 +594,6 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="EscenaJardin" type="Node2D" parent="FondoDiorama/SubViewport" unique_id=1764567391]
-visible = false
 
 [node name="Suelo" type="TileMapLayer" parent="FondoDiorama/SubViewport/EscenaJardin" unique_id=1583578909]
 z_index = -1
@@ -609,11 +608,8 @@ tile_map_data = PackedByteArray("AAAUAAoAAQABAAEAAAAUAAsAAQABAAAAAAAVAAoAAQACAAE
 tile_set = SubResource("TileSet_o2enq")
 
 [node name="Player" parent="FondoDiorama/SubViewport/EscenaJardin" unique_id=1390090094 instance=ExtResource("6_ikrqh")]
-position = Vector2(289, 105)
+position = Vector2(166, 110)
 script = null
-
-[node name="Sprite2D" parent="FondoDiorama/SubViewport/EscenaJardin/Player" index="0" unique_id=1663068011]
-frame = 0
 
 [node name="Camera2D" parent="FondoDiorama/SubViewport/EscenaJardin/Player" index="2" unique_id=144989242]
 enabled = false
@@ -639,6 +635,7 @@ angular_velocity_max = 90.0
 color_ramp = SubResource("Gradient_8vrlf")
 
 [node name="EscenaVivero" type="Node2D" parent="FondoDiorama/SubViewport" unique_id=874248974]
+visible = false
 position = Vector2(0, 9)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="FondoDiorama/SubViewport/EscenaVivero" unique_id=512609802]
@@ -686,9 +683,6 @@ tile_set = SubResource("TileSet_1vivr")
 [node name="Player" parent="FondoDiorama/SubViewport/EscenaVivero" unique_id=1519445381 instance=ExtResource("6_ikrqh")]
 position = Vector2(666, 506)
 script = null
-
-[node name="Sprite2D" parent="FondoDiorama/SubViewport/EscenaVivero/Player" index="0" unique_id=1663068011]
-frame = 0
 
 [node name="Camera2D" parent="FondoDiorama/SubViewport/EscenaVivero/Player" index="2" unique_id=144989242]
 enabled = false
@@ -863,7 +857,7 @@ offset_bottom = -9.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("2_cxoyd")
-text = "ALFA v1.0"
+text = "ALFA v2.0"
 
 [node name="PanelSlotsInicio" parent="." unique_id=1026911498 instance=ExtResource("5_kt2nm")]
 visible = false

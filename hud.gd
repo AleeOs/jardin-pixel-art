@@ -36,6 +36,17 @@ signal monedas_cambiadas(nueva_cantidad: int)
 @onready var lista_pedidos: VBoxContainer = $InventarioUI/VentanaPedidos/ListaPedidos
 @onready var fila_pedido_plantilla: Control = $InventarioUI/VentanaPedidos/ListaPedidos/FilaPedidoPlantilla
 
+@export var simular_controles_movil: bool = false
+
+@onready var controles_movil: Control = $InventarioUI.find_child("ControlesMovil", true, false)
+@onready var btn_accion_1: BaseButton = $InventarioUI.find_child("BtnAccion1", true, false)
+@onready var btn_accion_2: BaseButton = $InventarioUI.find_child("BtnAccion2", true, false)
+@onready var btn_accion_3: BaseButton = $InventarioUI.find_child("BtnAccion3", true, false)
+@onready var btn_accion_4: BaseButton = $InventarioUI.find_child("BtnAccion4", true, false)
+
+var puerta_cercana: Node2D = null
+var npc_cercano: Node2D = null
+
 var pedidos_abierto: bool = false
 var pausa_abierta: bool = false
 signal pausa_cambiada(abierta: bool)
@@ -202,7 +213,14 @@ func _ready() -> void:
 			
 	if panel_slots_pausa:
 		panel_slots_pausa.slot_seleccionado.connect(_on_slot_pausa_elegido)	
-
+	_configurar_aviso_orientacion_movil()		
+	_configurar_controles_movil()
+	get_tree().node_added.connect(func(nodo: Node):
+		if nodo.name == "Player":
+			puerta_cercana = null
+			npc_cercano = null
+			call_deferred("_actualizar_etiquetas_movil")
+	)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -507,7 +525,7 @@ func generar_lista_pedidos() -> void:
 		var texto := nueva_fila.get_node_or_null("TextoPedido") as Label
 		if texto:
 			var nombre_bonito: String = NOMBRES_COSECHAS.get(item, item)
-			texto.text = "%s (%d/%d)  +$%d" % [nombre_bonito, en_mochila, cantidad_req, recompensa]
+			texto.text = "%s (%d/%d)  +%d ECO" % [nombre_bonito, en_mochila, cantidad_req, recompensa]
 			
 		var boton := nueva_fila.get_node_or_null("BotonEntregar") as BaseButton
 		if boton:
@@ -554,17 +572,23 @@ func _abrir_guardado_pausa() -> void:
 
 func _on_guardar_y_salir_inicio() -> void:
 	if slot_activo >= 1 and slot_activo <= MAX_SLOTS:
-		guardar_en_slot(slot_activo)
-		_volver_a_menu_inicio()
+		Transicion.ejecutar_con_transicion(func():
+			guardar_en_slot(slot_activo)
+			_volver_a_menu_inicio()
+		)
 	elif panel_slots_pausa:
 		_salir_tras_guardar = true
 		panel_slots_pausa.abrir(panel_slots_pausa.Modo.GUARDAR)
 
 func _on_slot_pausa_elegido(num_slot: int, _modo: int) -> void:
-	guardar_en_slot(num_slot)
 	if _salir_tras_guardar:
 		_salir_tras_guardar = false
-		_volver_a_menu_inicio()
+		Transicion.ejecutar_con_transicion(func():
+			guardar_en_slot(num_slot)
+			_volver_a_menu_inicio()
+		)
+	else:
+		guardar_en_slot(num_slot)
 
 func _volver_a_menu_inicio() -> void:
 	pausa_abierta = false
@@ -796,3 +820,153 @@ func atenuar_musica(atenuar: bool) -> void:
 		destino_db,
 		0.25
 	)
+# --- SOPORTE MÓVIL: ORIENTACIÓN Y AUDIO EN SEGUNDO PLANO ---
+var _capa_orientacion: CanvasLayer
+
+func es_dispositivo_movil() -> bool:
+	return DisplayServer.is_touchscreen_available()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		if OS.has_feature("web") and es_dispositivo_movil():
+			AudioServer.set_bus_mute(0, true)
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN or what == NOTIFICATION_WM_WINDOW_FOCUS_IN:
+		AudioServer.set_bus_mute(0, false)
+
+func _configurar_aviso_orientacion_movil() -> void:
+	_capa_orientacion = CanvasLayer.new()
+	_capa_orientacion.layer = 120
+	_capa_orientacion.visible = false
+	add_child(_capa_orientacion)
+	
+	var fondo := ColorRect.new()
+	fondo.color = Color(0.12, 0.09, 0.07, 0.96)
+	fondo.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fondo.mouse_filter = Control.MOUSE_FILTER_STOP
+	_capa_orientacion.add_child(fondo)
+	
+	var aviso := Label.new()
+	aviso.text = "GIRA TU TELEFONO A HORIZONTAL\nPARA JUGAR SELL PLANTS"
+	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	aviso.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	aviso.set_anchors_preset(Control.PRESET_FULL_RECT)
+	aviso.add_theme_font_override("font", preload("res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf"))
+	aviso.add_theme_font_size_override("font_size", 28)
+	fondo.add_child(aviso)
+	
+	get_viewport().size_changed.connect(_verificar_orientacion)
+	_verificar_orientacion()
+
+func _verificar_orientacion() -> void:
+	if not _capa_orientacion:
+		return
+	var tam := get_viewport().get_visible_rect().size
+	_capa_orientacion.visible = es_dispositivo_movil() and (tam.y > tam.x)
+
+# --- CONTROLES TÁCTILES CONTEXTUALES (ALFA V2.0) ---
+func _configurar_controles_movil() -> void:
+	if not controles_movil:
+		return
+	controles_movil.visible = es_dispositivo_movil() or simular_controles_movil
+	
+	for btn in [btn_accion_1, btn_accion_2, btn_accion_3, btn_accion_4]:
+		if not btn:
+			continue
+		var lbl := btn.find_child("TextoBoton", true, false) as Label
+		if lbl:
+			lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+			lbl.offset_left = 4
+			lbl.offset_right = -4
+			lbl.offset_top = 0
+			lbl.offset_bottom = -4
+			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			lbl.add_theme_font_size_override("font_size", 14)
+			lbl.add_theme_color_override("font_color", Color(0.29, 0.20, 0.14))
+	
+	if btn_accion_1: btn_accion_1.pressed.connect(_on_btn_accion_1)
+	if btn_accion_2: btn_accion_2.pressed.connect(_on_btn_accion_2)
+	if btn_accion_3: btn_accion_3.pressed.connect(_on_btn_accion_3)
+	if btn_accion_4: btn_accion_4.pressed.connect(_on_btn_accion_4)
+	
+	get_tree().node_added.connect(func(nodo: Node):
+		if nodo.name == "Player":
+			puerta_cercana = null
+			call_deferred("_actualizar_etiquetas_movil")
+	)
+	_actualizar_etiquetas_movil()
+
+func registrar_puerta_cercana(puerta: Node2D) -> void:
+	puerta_cercana = puerta
+	_actualizar_etiquetas_movil()
+
+func registrar_npc_cercano(npc: Node2D) -> void:
+	npc_cercano = npc
+	_actualizar_etiquetas_movil()
+
+func _es_escena_vivero() -> bool:
+	var escena := get_tree().current_scene
+	return escena != null and escena.scene_file_path.contains("vivero")
+
+func _actualizar_etiquetas_movil() -> void:
+	var en_vivero := _es_escena_vivero()
+	if btn_accion_1:
+		var lbl1 := btn_accion_1.find_child("TextoBoton", true, false) as Label
+		if lbl1:
+			if puerta_cercana != null:
+				lbl1.text = "SALIR" if en_vivero else "ENTRAR"
+			else:
+				lbl1.text = "ARAR"
+	if btn_accion_2:
+		var lbl2 := btn_accion_2.find_child("TextoBoton", true, false) as Label
+		if lbl2:
+			if npc_cercano != null:
+				lbl2.text = "ATENDER"
+			else:
+				lbl2.text = "EXHIBIR" if en_vivero else "SEMBRAR"
+	if btn_accion_3:
+		var lbl3 := btn_accion_3.find_child("TextoBoton", true, false) as Label
+		if lbl3: lbl3.text = "REGAR"
+	if btn_accion_4:
+		var lbl4 := btn_accion_4.find_child("TextoBoton", true, false) as Label
+		if lbl4: lbl4.text = "COSECHAR"
+
+func _obtener_jugador() -> Node2D:
+	var p := get_tree().get_first_node_in_group("player") as Node2D
+	if not p and get_tree().current_scene:
+		p = get_tree().current_scene.find_child("Player", true, false) as Node2D
+	return p
+
+func _on_btn_accion_1() -> void:
+	if esta_juego_pausado(): return
+	if puerta_cercana != null and not puerta_cercana.viajando:
+		puerta_cercana.iniciar_transicion()
+		return
+	var player := _obtener_jugador()
+	if player and not player.is_acting:
+		player.iniciar_accion("action_")
+
+func _on_btn_accion_2() -> void:
+	if esta_juego_pausado(): return
+	if npc_cercano != null and npc_cercano.has_method("interactuar"):
+		npc_cercano.interactuar()
+		return
+	var player := _obtener_jugador()
+	if not player or player.is_acting: return
+	if _es_escena_vivero():
+		player.intentar_exhibir()
+	else:
+		player.plantar_semilla()
+
+func _on_btn_accion_3() -> void:
+	if esta_juego_pausado(): return
+	var player := _obtener_jugador()
+	if player and not player.is_acting:
+		player.iniciar_accion("water_")
+
+func _on_btn_accion_4() -> void:
+	if esta_juego_pausado(): return
+	var player := _obtener_jugador()
+	if player and not player.is_acting:
+		player.cosechar_planta()

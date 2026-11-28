@@ -19,6 +19,8 @@ var punto_entrada: Vector2
 var destino_actual: Vector2
 
 var jugador_cerca: bool = false
+var registrado_en_hud: bool = false
+
 var objetivo_venta: Dictionary = {}
 var objetivo_pedido: Dictionary = {}
 
@@ -98,9 +100,16 @@ func _physics_process(_delta: float) -> void:
 			var p = get_parent().get_node_or_null("Player")
 			jugador_cerca = p != null and global_position.distance_to(p.global_position) < 34.0
 			if jugador_cerca:
-				set_mensaje("[E]")
+				set_mensaje("(E)")
+				if not registrado_en_hud:
+					registrado_en_hud = true
+					HudGlobal.registrar_npc_cercano(self)
 			else:
-				set_mensaje("$" if rol_actual == Rol.COMPRADOR else "!")
+				set_mensaje("ECO" if rol_actual == Rol.COMPRADOR else "!")
+				if registrado_en_hud:
+					registrado_en_hud = false
+					if HudGlobal.npc_cercano == self:
+						HudGlobal.registrar_npc_cercano(null)
 		Estado.SALIENDO:
 			if mover_hacia(punto_entrada):
 				completar_salida()
@@ -183,21 +192,25 @@ func evaluar_exhibicion() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if estado_actual == Estado.ESPERANDO_ATENCION and jugador_cerca and not HudGlobal.dialogo_npc_abierto:
 		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_E:
-			ultima_dir = "down"
-			anim.play("idle_down")
-			abrir_interaccion()
+			interactuar()
 			get_viewport().set_input_as_handled()
+
+func interactuar() -> void:
+	if estado_actual != Estado.ESPERANDO_ATENCION or not jugador_cerca or HudGlobal.dialogo_npc_abierto:
+		return
+	ultima_dir = "down"
+	anim.play("idle_down")
+	abrir_interaccion()
 
 func abrir_interaccion() -> void:
 	if rol_actual == Rol.COMPRADOR:
 		var nombre_planta: String = NOMBRES_BONITOS.get(objetivo_venta["item"], objetivo_venta["item"])
-		var msg := "¡Hola! Quiero comprar el %s de exhibición por $%d Eco-Monedas." % [nombre_planta, objetivo_venta["precio"]]
+		var msg := "¡Hola! Quiero comprar el %s de exhibición por %d Eco-Monedas." % [nombre_planta, objetivo_venta["precio"]]
 		HudGlobal.mostrar_dialogo_npc(msg, _aceptar_compra, _rechazar_interaccion)
 	elif rol_actual == Rol.PEDIDO:
 		var nombre_planta: String = NOMBRES_BONITOS.get(objetivo_pedido["item"], objetivo_pedido["item"])
-		var msg := "No veo lo que busco. ¿Me consigues %dx %s por $%d Eco-Monedas?" % [objetivo_pedido["cantidad"], nombre_planta, objetivo_pedido["recompensa"]]
+		var msg := "No veo lo que busco. ¿Me consigues %dx %s por %d Eco-Monedas?" % [objetivo_pedido["cantidad"], nombre_planta, objetivo_pedido["recompensa"]]
 		HudGlobal.mostrar_dialogo_npc(msg, _aceptar_pedido, _rechazar_interaccion)
-
 func _aceptar_compra() -> void:
 	var slot_name: String = objetivo_venta["slot"]
 	if HudGlobal.exhibicion_guardada.get(slot_name, "") == objetivo_venta["item"]:
@@ -220,11 +233,19 @@ func _rechazar_interaccion() -> void:
 	iniciar_retirada()
 
 func iniciar_retirada() -> void:
+	if registrado_en_hud:
+		registrado_en_hud = false
+		if HudGlobal.npc_cercano == self:
+			HudGlobal.registrar_npc_cercano(null)
 	gestor_vivero.liberar_puesto_exhibicion(self)
 	gestor_vivero.liberar_puesto_mostrador(self)
 	estado_actual = Estado.SALIENDO
 	await get_tree().create_timer(1.0).timeout
 	set_mensaje("")
+
+func _exit_tree() -> void:
+	if registrado_en_hud and HudGlobal.npc_cercano == self:
+		HudGlobal.registrar_npc_cercano(null)
 
 func completar_salida() -> void:
 	estado_actual = Estado.MIRANDO # Espera quieto mirando a la puerta mientras se abre

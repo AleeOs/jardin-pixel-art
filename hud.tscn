@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://rxtu1c4pqqsi" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/Sprite sheets/Setting menu.png" id="5_1xsix"]
 [ext_resource type="PackedScene" uid="uid://bkdu5nkhv4cup" path="res://panel_slots.tscn" id="6_1xsix"]
 [ext_resource type="FontFile" uid="uid://dmyjfqdkkt15m" path="res://Sprout Lands - UI Pack - Basic pack/Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf" id="6_rftc2"]
+[ext_resource type="Script" uid="uid://ba7ngqr8idv00" path="res://joystick_virtual.gd" id="8_61f8s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qwt81"]
 atlas = ExtResource("2_a2258")
@@ -383,6 +384,58 @@ region = Rect2(162, 177, 93, 29)
 [sub_resource type="AtlasTexture" id="AtlasTexture_shqdc"]
 atlas = ExtResource("2_a2258")
 region = Rect2(258, 179, 92, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2khor"]
+atlas = ExtResource("2_a2258")
+region = Rect2(274, 35, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0thb"]
+atlas = ExtResource("2_a2258")
+region = Rect2(274, 51, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfxig"]
+atlas = ExtResource("2_a2258")
+region = Rect2(275, 17, 9, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pju2"]
+atlas = ExtResource("2_a2258")
+region = Rect2(276, 1, 9, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owv0m"]
+atlas = ExtResource("2_a2258")
+region = Rect2(310, 36, 20, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rcbc"]
+atlas = ExtResource("2_a2258")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tl7e"]
+atlas = ExtResource("2_a2258")
+region = Rect2(59, 59, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1g0v"]
+atlas = ExtResource("2_a2258")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udcp3"]
+atlas = ExtResource("2_a2258")
+region = Rect2(59, 59, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q17s"]
+atlas = ExtResource("2_a2258")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2d608"]
+atlas = ExtResource("2_a2258")
+region = Rect2(59, 59, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w71nf"]
+atlas = ExtResource("2_a2258")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_615i1"]
+atlas = ExtResource("2_a2258")
+region = Rect2(59, 59, 26, 26)
 
 [node name="HUD" type="CanvasLayer" unique_id=1091710389 groups=["hud_global"]]
 script = ExtResource("1_640wx")
@@ -1227,3 +1280,173 @@ vertical_alignment = 1
 [node name="PanelSlotsPausa" parent="InventarioUI" unique_id=1026911498 instance=ExtResource("6_1xsix")]
 visible = false
 layout_mode = 1
+
+[node name="ControlesMovil" type="Control" parent="InventarioUI" unique_id=693268959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="JoystickVirtual" type="Control" parent="InventarioUI/ControlesMovil" unique_id=1393862231]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 65.0
+offset_top = -213.0
+offset_right = 225.0
+offset_bottom = -53.0
+grow_vertical = 0
+script = ExtResource("8_61f8s")
+
+[node name="FlechaArriba" type="TextureRect" parent="InventarioUI/ControlesMovil/JoystickVirtual" unique_id=241529453]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 3.0
+offset_right = 98.0
+offset_bottom = 43.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_2khor")
+
+[node name="FlechaAbajo" type="TextureRect" parent="InventarioUI/ControlesMovil/JoystickVirtual" unique_id=644620700]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 122.0
+offset_right = 101.0
+offset_bottom = 162.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_w0thb")
+
+[node name="FlechaIzquierda" type="TextureRect" parent="InventarioUI/ControlesMovil/JoystickVirtual" unique_id=1214892331]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 61.0
+offset_right = 38.0
+offset_bottom = 101.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_gfxig")
+
+[node name="FlechaDerecha" type="TextureRect" parent="InventarioUI/ControlesMovil/JoystickVirtual" unique_id=1664941024]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 62.0
+offset_right = 163.0
+offset_bottom = 102.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_7pju2")
+
+[node name="Perilla" type="TextureRect" parent="InventarioUI/ControlesMovil/JoystickVirtual" unique_id=1521103681]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 0
+offset_left = 52.0
+offset_top = 56.0
+offset_right = 108.0
+offset_bottom = 112.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_owv0m")
+
+[node name="BotonesAccion" type="Control" parent="InventarioUI/ControlesMovil" unique_id=1014313854]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -243.0
+offset_right = -41.0
+offset_bottom = -43.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="BtnAccion1" type="TextureButton" parent="InventarioUI/ControlesMovil/BotonesAccion" unique_id=1756510063]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 0
+offset_left = 125.0
+offset_top = 108.0
+offset_right = 207.0
+offset_bottom = 190.0
+texture_normal = SubResource("AtlasTexture_6rcbc")
+texture_pressed = SubResource("AtlasTexture_4tl7e")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextoBoton" type="Label" parent="InventarioUI/ControlesMovil/BotonesAccion/BtnAccion1" unique_id=302236265]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+theme_override_font_sizes/font_size = 14
+
+[node name="BtnAccion2" type="TextureButton" parent="InventarioUI/ControlesMovil/BotonesAccion" unique_id=1257276582]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 0
+offset_left = 25.0
+offset_top = 118.0
+offset_right = 107.0
+offset_bottom = 200.0
+texture_normal = SubResource("AtlasTexture_p1g0v")
+texture_pressed = SubResource("AtlasTexture_udcp3")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextoBoton" type="Label" parent="InventarioUI/ControlesMovil/BotonesAccion/BtnAccion2" unique_id=134986128]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+theme_override_font_sizes/font_size = 14
+
+[node name="BtnAccion3" type="TextureButton" parent="InventarioUI/ControlesMovil/BotonesAccion" unique_id=1684230849]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 0
+offset_left = 35.0
+offset_top = 22.0
+offset_right = 117.0
+offset_bottom = 104.0
+texture_normal = SubResource("AtlasTexture_4q17s")
+texture_pressed = SubResource("AtlasTexture_2d608")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextoBoton" type="Label" parent="InventarioUI/ControlesMovil/BotonesAccion/BtnAccion3" unique_id=1585571063]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+theme_override_font_sizes/font_size = 14
+
+[node name="BtnAccion4" type="TextureButton" parent="InventarioUI/ControlesMovil/BotonesAccion" unique_id=1714215407]
+custom_minimum_size = Vector2(82, 82)
+layout_mode = 0
+offset_left = 132.0
+offset_top = 12.0
+offset_right = 214.0
+offset_bottom = 94.0
+texture_normal = SubResource("AtlasTexture_w71nf")
+texture_pressed = SubResource("AtlasTexture_615i1")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextoBoton" type="Label" parent="InventarioUI/ControlesMovil/BotonesAccion/BtnAccion4" unique_id=1570757066]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_rftc2")
+theme_override_font_sizes/font_size = 14
